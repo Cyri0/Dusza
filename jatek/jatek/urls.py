@@ -15,12 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.shortcuts import redirect
 
 from .views import index_views as jatek_views
 
+def home_redirect(request):
+    return redirect('users:role-selection')
 urlpatterns = [
 
     path('', jatek_views.index, name='index'),
     path('admin/', admin.site.urls),
+     path('users/', include('users.urls')),
+    path('cards/', include('cards.urls')),
 ]

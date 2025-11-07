@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Damareen - Üdvözöllek!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'users:role-selection' %}">🏰 Damareen</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row justify-content-center text-center">
+            <div class="col-md-8">
+                <div class="jumbotron bg-light p-5 rounded">
+                    <h1 class="display-4">🏰 Damareen</h1>
+                    <p class="lead">A gyűjtögetős fantasy kártyajáték</p>
+                    
+                    <div class="row mt-5">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">🎮 Játékos</h5>
+                                    <p class="card-text flex-grow-1">Küzdj meg kazamatákkal, gyűjts kártyákat és fejleszd hőseidet!</p>
+                                    <a href="{% url 'users:player-login' %}" class="btn btn-primary btn-lg mt-auto">Játékosként játszom</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">👑 Játékmester</h5>
+                                    <p class="card-text flex-grow-1">Világot alkoss, kazamatákat építs és kártyákat készíts!</p>
+                                    <a href="{% url 'users:gamemaster-login' %}" class="btn btn-outline-primary btn-lg mt-auto">Játékmesterként</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
