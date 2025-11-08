@@ -96,10 +96,10 @@ def gamemaster_login(request):
     return render(request, 'users/gamemaster_login.html')
 
 def player_dashboard(request):
-    return render(request, 'users/player_dashboard.html')
+    return render(request, 'users/dashboard.html')
 
 def gamemaster_dashboard(request):
-    return render(request, 'users/gamemaster_dashboard.html')
+    return render(request, 'users/dashboard.html')
 
 
 def user_login(request):
@@ -118,7 +118,7 @@ def user_login(request):
                 # Szerepkör ellenőrzése
                 if user.role != role:
                     messages.error(request, 'Hibás szerepkör!')
-                    return render(request, 'users/login.html', {'form': form})
+                    return render(request, 'users/player_login.html', {'form': form})
                 
                 login(request, user)
                 messages.success(request, f'Sikeres bejelentkezés! Üdvözöllek, {user.email}!')
@@ -133,4 +133,4 @@ def user_login(request):
     else:
         form = UserProfile()
     
-    return render(request, 'users/login.html', {'form': form})
+    return render(request, 'users/player_login.html', {'form': form})

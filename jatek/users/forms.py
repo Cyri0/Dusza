@@ -3,8 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 class PlayerRegistrationForm(UserCreationForm):
-    # A szerepkör mezőt hozzáadjuk a formhoz, de elrejtjük, mert a szerepkör a regisztráció módjától függ (player vagy gamemaster)
-    role = forms.CharField(widget=forms.HiddenInput())
+  
+    role = forms.MultipleChoiceField(
+    choices=[
+        ('jatekos', 'Játékos'),
+        ('jatekosmester', 'Játékosmester')
+    ],
+    widget=forms.SelectMultiple(attrs={'class': 'form-control'})
+)
 
     class Meta:
         model = User
