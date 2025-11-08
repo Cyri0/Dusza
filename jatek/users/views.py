@@ -100,35 +100,3 @@ def player_dashboard(request):
 
 
 
-
-def user_login(request):
-
-    if request.method == 'POST':
-        form = UserProfile(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            role = form.cleaned_data['role']
-            
-        
-            user = authenticate(request, email=email, password=password)
-            
-            if user is not None:
-                
-                if user.role != role:
-                    messages.error(request, 'Hibás szerepkör!')
-                    return render(request, 'users/player_login.html', {'form': form})
-                
-                login(request, user)
-                messages.success(request, f'Sikeres bejelentkezés! Üdvözöllek, {user.email}!')
-              
-                if user.role == 'gamemaster':
-                    return redirect('cards:card-list')
-                else:
-                    return redirect('game:game-home')
-            else:
-                messages.error(request, 'Hibás email vagy jelszó!')
-    else:
-        form = UserProfile()
-    
-    return render(request, 'users/player_login.html', {'form': form})
