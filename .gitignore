@@ -1,6 +1,6 @@
 jatek/db.sqlite3
-jatek\views\__pycache__
-jatek/users/__pycache__/forms.cpython-312.pyc
-jatek/users/__pycache__/views.cpython-312.pyc
-jatek/users/__pycache__/views.cpython-312.pyc
-jatek/cards/__pycache__/models.cpython-312.pyc
+jatek/jatek\views\__pycache__
+jatek/jatek/users/__pycache__
+jatek/jatek/users/__pycache__
+jatek/jatek/users/__pycache__
+jatek/jatek/cards/__pycache__
