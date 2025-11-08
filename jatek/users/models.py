@@ -1,17 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
-class Player(AbstractUser):
-    ROLE_CHOICES = [
-        ('player', 'Játékos'),
-        ('gamemaster', 'Játékmester'),
-    ]
-    
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='player')
-    email = models.EmailField(unique=True)
-    
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+# Használd a beépített User modellt és egészítsd ki profilmodellel
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=[
+        ('jatekos', 'Játékos'),
+        ('jatekosmester', 'Játékosmester'),
+    ], default='jatekos')
     
     def __str__(self):
-        return f"{self.email} ({self.get_role_display()})"
+        return f"{self.user.username} ({self.role})"

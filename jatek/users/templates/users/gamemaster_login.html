@@ -34,10 +34,15 @@
                             {% csrf_token %}
                             
                             <div class="mb-3">
-                                <label for="player_name" class="form-label">Add meg a neved:</label>
-                                <input type="text" class="form-control" id="player_name" name="player_name" 
-                                       placeholder="Pl: Gandalf" maxlength="50" required autofocus>
-                                <div class="form-text">Játékmesterként világot és kazamatákat hozhatsz létre.</div>
+                                <label for="username" class="form-label">Felhasználónév:</label>
+                                <input type="text" class="form-control" id="username" name="username" 
+                                       placeholder="Add meg a felhasználóneved" required autofocus>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Jelszó:</label>
+                                <input type="password" class="form-control" id="password" name="password" 
+                                       placeholder="Add meg a jelszavad" required>
                             </div>
                             
                             <div class="d-grid gap-2">
