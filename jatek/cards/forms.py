@@ -39,10 +39,10 @@ class DeckCardForm(forms.Form):
         empty_label="Válassz kártyát",
         widget=forms.Select(attrs={'class': 'form-control'})
     )
-    
-    def __init__(self, *args, **kwargs):
+
+    def init(self, args, **kwargs):
         user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
+        super().init(args, **kwargs)
         if user:
             self.fields['card'].queryset = PlayerCardStats.objects.filter(player=user)
 

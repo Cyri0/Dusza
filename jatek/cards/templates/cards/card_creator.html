@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Kártya Készítő - Damareen{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Üzenetek -->
+    {% if messages %}
+    <div class="messages mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="card bg-dark text-white">
+        <div class="card-header">
+            <h2 class="mb-0">🎴 Damareen - Kártya Készítő</h2>
+            <small class="text-muted">
+                {% if is_game_master %}
+                <i class="fas fa-crown"></i> Játékmester mód
+                {% else %}
+                <i class="fas fa-user"></i> Játékos mód
+                {% endif %}
+            </small>
+        </div>
+        
+        <div class="card-body">
+            <!-- Játékmester funkciók -->
+            {% if is_game_master %}
+            <ul class="nav nav-tabs" id="cardTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="world-tab" data-bs-toggle="tab" data-bs-target="#world" type="button">
+                        🃏 Világkártyák
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="leader-tab" data-bs-toggle="tab" data-bs-target="#leader" type="button">
+                        👑 Vezérkártyák
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="dungeon-tab" data-bs-toggle="tab" data-bs-target="#dungeon" type="button">
+                        🏰 Kazamaták
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-3" id="cardTabsContent">
+                <!-- VILÁGKÁRTYÁK -->
+                <div class="tab-pane fade show active" id="world" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-secondary text-white">
+                                <div class="card-header">
+                                    <h5>Új Világkártya</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'create_world_card' %}">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label class="form-label">Név</label>
+                                            {{ world_form.name }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Sebzés</label>
+                                            {{ world_form.base_damage }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Életerő</label>
+                                            {{ world_form.base_health }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Típus</label>
+                                            {{ world_form.card_type }}
+                                        </div>
+                                        <button type="submit" class="btn btn-success w-100">
+                                            🎴 Kártya Létrehozása
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <h4>Világkártyák ({{ world_cards.count }})</h4>
+                            {% if world_cards %}
+                            <div class="row">
+                                {% for card in world_cards %}
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="card h-100 card-{{ card.card_type }}">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <h5 class="card-title">{{ card.name }}</h5>
+                                                <form method="post" action="{% url 'delete_world_card' card.id %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-danger" 
+                                                            onclick="return confirm('Biztosan törlöd?')">
+                                                        🗑️
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="card-stats d-flex justify-content-around mb-2">
+                                                <div class="text-center">
+                                                    <div class="stat-value">{{ card.base_damage }}</div>
+                                                    <div class="stat-label">⚔️ Sebzés</div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <div class="stat-value">{{ card.base_health }}</div>
+                                                    <div class="stat-label">❤️ Életerő</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <span class="badge type-{{ card.card_type }}">
+                                                    {% if card.card_type == 'fire' %}🔥{% endif %}
+                                                    {% if card.card_type == 'water' %}💧{% endif %}
+                                                    {% if card.card_type == 'earth' %}🌍{% endif %}
+                                                    {% if card.card_type == 'air' %}💨{% endif %}
+                                                    {{ card.get_card_type_display }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-center text-muted">Még nincsenek világkártyák.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VEZÉRKÁRTYÁK -->
+                <div class="tab-pane fade" id="leader" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-secondary text-white">
+                                <div class="card-header">
+                                    <h5>Új Vezérkártya</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'create_leader_card' %}">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label class="form-label">Név</label>
+                                            {{ leader_form.name }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Alap Kártya</label>
+                                            {{ leader_form.base_card }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                {{ leader_form.is_damage_doubled }}
+                                                <label class="form-check-label">
+                                                    Sebzés duplázás
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                {{ leader_form.is_health_doubled }}
+                                                <label class="form-check-label">
+                                                    Életerő duplázás
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-warning w-100">
+                                            👑 Vezérkártya Létrehozása
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <h4>Vezérkártyák ({{ leader_cards.count }})</h4>
+                            {% if leader_cards %}
+                            <div class="row">
+                                {% for card in leader_cards %}
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="card h-100 border-warning">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <h5 class="card-title text-warning">{{ card.name }}</h5>
+                                                <form method="post" action="{% url 'delete_leader_card' card.id %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-danger" 
+                                                            onclick="return confirm('Biztosan törlöd?')">
+                                                        🗑️
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="card-stats d-flex justify-content-around mb-2">
+                                                <div class="text-center">
+                                                    <div class="stat-value">{{ card.damage }}</div>
+                                                    <div class="stat-label">⚔️ Sebzés</div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <div class="stat-value">{{ card.health }}</div>
+                                                    <div class="stat-label">❤️ Életerő</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center mb-2">
+                                                <span class="badge type-{{ card.card_type }}">
+                                                    {% if card.card_type == 'fire' %}🔥{% endif %}
+                                                    {% if card.card_type == 'water' %}💧{% endif %}
+                                                    {% if card.card_type == 'earth' %}🌍{% endif %}
+                                                    {% if card.card_type == 'air' %}💨{% endif %}
+                                                    {{ card.get_card_type_display }}
+                                                </span>
+                                            </div>
+                                            <div class="text-center">
+                                                <small class="text-muted">
+                                                    Alap: {{ card.base_card.name }}<br>
+                                                    {% if card.is_damage_doubled %}⚔️ Dupla sebzés{% endif %}
+                                                    {% if card.is_health_doubled %}❤️ Dupla életerő{% endif %}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-center text-muted">Még nincsenek vezérkártyák.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KAZAMATÁK -->
+                <div class="tab-pane fade" id="dungeon" role="tabpanel">
+                    <div class="text-center">
+                        <a href="{% url 'dungeon_management' %}" class="btn btn-primary btn-lg">
+                            🏰 Kazamata Kezelő Megnyitása
+                        </a>
+                        <p class="mt-3 text-muted">Itt hozhatsz létre és kezelhetsz kazamatákat a játékhoz.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JÁTÉKOS MOD -->
+            {% else %}
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>🃏 Elérhető Kártyák</h4>
+                    {% if world_cards %}
+                    <div class="row">
+                        {% for card in world_cards %}
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card h-100 card-{{ card.card_type }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ card.name }}</h5>
+                                    <div class="card-stats d-flex justify-content-around mb-2">
+                                        <div class="text-center">
+                                            <div class="stat-value">{{ card.base_damage }}</div>
+                                            <div class="stat-label">⚔️ Sebzés</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="stat-value">{{ card.base_health }}</div>
+                                            <div class="stat-label">❤️ Életerő</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mb-3">
+                                        <span class="badge type-{{ card.card_type }}">
+                                            {% if card.card_type == 'fire' %}🔥{% endif %}
+                                            {% if card.card_type == 'water' %}💧{% endif %}
+                                            {% if card.card_type == 'earth' %}🌍{% endif %}
+                                            {% if card.card_type == 'air' %}💨{% endif %}
+                                            {{ card.get_card_type_display }}
+                                        </span>
+                                    </div>
+                                    <form method="post" action="{% url 'add_card_to_collection' card.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success w-100">
+                                            ➕ Gyűjteményhez
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted">Még nincsenek elérhető kártyák.</p>
+                    {% endif %}
+                </div>
+                
+                <div class="col-md-4">
+                    <h4>📚 Saját Gyűjtemény</h4>
+                    {% if player_cards %}
+                    <div class="row">
+                        {% for card in player_cards %}
+                        <div class="col-12 mb-2">
+                            <div class="card">
+                                <div class="card-body py-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ card.world_card.name }}</strong>
+                                            <br>
+                                            <small>
+                                                ⚔️ {{ card.total_damage }} | ❤️ {{ card.total_health }}
+                                            </small>
+                                        </div>
+                                        <form method="post" action="{% url 'remove_card_from_collection' card.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                🗑️
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted">Még nincs kártyád a gyűjteményedben.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.card-fire { border-left: 4px solid #dc3545; }
+.card-water { border-left: 4px solid #0d6efd; }
+.card-earth { border-left: 4px solid #fd7e14; }
+.card-air { border-left: 4px solid #6f42c1; }
+
+.type-fire { background-color: #dc3545; color: white; }
+.type-water { background-color: #0d6efd; color: white; }
+.type-earth { background-color: #fd7e14; color: white; }
+.type-air { background-color: #6f42c1; color: white; }
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.stat-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+</style>
+{% endblock %}

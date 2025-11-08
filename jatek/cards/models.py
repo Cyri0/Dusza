@@ -68,7 +68,7 @@ class DungeonCard(models.Model):
         unique_together = ['dungeon', 'order']
 
 class PlayerCardStats(models.Model):
-    # FONTOS: itt a Player modellre hivatkozunk
+
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='card_stats')
     world_card = models.ForeignKey(WorldCard, on_delete=models.CASCADE)
     extra_damage = models.IntegerField(default=0)
@@ -97,7 +97,7 @@ class PlayerCardStats(models.Model):
         unique_together = ['player', 'world_card']
 
 class PlayerCollection(models.Model):
-    # FONTOS: itt is a Player modellre hivatkozunk
+
     player = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='collection')
     
     def __str__(self):
@@ -111,7 +111,7 @@ class CollectionEntry(models.Model):
         unique_together = ['collection', 'card_stats']
 
 class PlayerDeck(models.Model):
-    # FONTOS: itt is a Player modellre hivatkozunk
+
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='decks')
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
@@ -134,7 +134,7 @@ class DeckCard(models.Model):
         unique_together = ['deck', 'order']
 
 class Battle(models.Model):
-    # FONTOS: itt is a Player modellre hivatkozunk
+
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='battles')
     dungeon = models.ForeignKey(Dungeon, on_delete=models.CASCADE)
     player_deck = models.ForeignKey(PlayerDeck, on_delete=models.CASCADE)
@@ -161,7 +161,6 @@ class BattleLog(models.Model):
     class Meta:
         ordering = ['round_number']
 
-# Signal handlers - FONTOS: itt is a Player modellre hivatkozunk
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_player_collection(sender, instance, created, **kwargs):
     if created:
