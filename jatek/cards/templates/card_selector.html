@@ -1,6 +1,5 @@
 <form method="POST" action="{% url 'save_selected_cards' %}">
     {% csrf_token %}
-    
     <div class="card-grid">
         {% for card in all_cards %}
         <div class="card-item">
