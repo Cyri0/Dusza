@@ -1,5 +1,5 @@
 from django import forms
-from .models import PlayerCardStats, WorldCard, LeaderCard, Dungeon, PlayerDeck, PlayerCollection
+from .models import PlayerCards, WorldCard, LeaderCard, Dungeon, PlayerDeck
 
 class WorldCardForm(forms.ModelForm):
     class Meta:
@@ -44,7 +44,7 @@ class DeckCardForm(forms.Form):
         user = kwargs.pop('user', None)
         super().init(args, **kwargs)
         if user:
-            self.fields['card'].queryset = PlayerCardStats.objects.filter(player=user)
+            self.fields['card'].queryset = PlayerCards.objects.filter(player=user)
 
 class BattleForm(forms.Form):
     dungeon = forms.ModelChoiceField(

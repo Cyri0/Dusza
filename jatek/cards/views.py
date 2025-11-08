@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import WorldCard, LeaderCard, Dungeon, PlayerCardStats, PlayerCollection
+from .models import WorldCard, LeaderCard, Dungeon, PlayerCards
 from .forms import WorldCardForm, LeaderCardForm
 
 def is_game_master(user):
@@ -26,8 +26,8 @@ def card_creator(request):
     player_cards = []
     if not is_game_master(request.user):
         try:
-            player_cards = PlayerCardStats.objects.filter(player=request.user)
-        except PlayerCardStats.DoesNotExist:
+            player_cards = PlayerCards.objects.filter(player=request.user)
+        except PlayerCards.DoesNotExist:
             player_cards = []
     
     context = {
@@ -158,45 +158,6 @@ def delete_leader_card(request, card_id):
     
     return redirect('card_creator')
 
-@login_required
-def add_card_to_collection(request, card_id):
-    """Kártya hozzáadása a játékos gyűjteményéhez"""
-    if request.method == 'POST':
-        try:
-            world_card = get_object_or_404(WorldCard, id=card_id)
-            
-            # Ellenőrizzük, hogy már van-e ilyen kártya
-            if PlayerCardStats.objects.filter(player=request.user, world_card=world_card).exists():
-                messages.warning(request, f'"{world_card.name}" már szerepel a gyűjteményedben!')
-            else:
-                # Létrehozzuk a játékos kártya statisztikáit
-                PlayerCardStats.objects.create(
-                    player=request.user,
-                    world_card=world_card,
-                    extra_damage=0,
-                    extra_health=0
-                )
-                messages.success(request, f'"{world_card.name}" hozzáadva a gyűjteményedhez!')
-                
-        except Exception as e:
-            messages.error(request, f'Hiba történt: {str(e)}')
-    
-    return redirect('card_creator')
-
-@login_required
-def remove_card_from_collection(request, card_stats_id):
-    """Kártya eltávolítása a játékos gyűjteményéből"""
-    if request.method == 'POST':
-        try:
-            card_stats = get_object_or_404(PlayerCardStats, id=card_stats_id, player=request.user)
-            card_name = card_stats.world_card.name
-            card_stats.delete()
-            messages.success(request, f'"{card_name}" eltávolítva a gyűjteményedből!')
-            
-        except Exception as e:
-            messages.error(request, f'Hiba történt: {str(e)}')
-    
-    return redirect('card_creator')
 
 @login_required
 @user_passes_test(is_game_master)
@@ -229,17 +190,6 @@ def create_dungeon(request):
     
     return redirect('dungeon_management')
 
-@login_required
-def card_selector(request):
-    """Kártyaválasztó oldal a játékosok számára"""
-    player = request.user
-    player_collection = PlayerCardStats.objects.filter(player=player).select_related('world_card')
-    
-    context = {
-        'player_collection': player_collection,
-    }
-    
-    return render(request, 'cards/card_selection.html', context)
 
 # Egyszerű API végpontok (ha később szükséges)
 def api_world_cards(request):
@@ -279,3 +229,16 @@ def api_leader_cards(request):
         ]
     }
     return JsonResponse(data)
+
+@login_required
+def card_selector(request):
+    """Kártyaválasztó oldal a játékosok számára"""
+    player = request.user
+    player_collection = PlayerCards.objects.filter(player=player).select_related('world_card')
+    
+    context = {
+        'player_collection': player_collection,
+    }
+    
+    return render(request, 'cards/card_selector.html', context)
+

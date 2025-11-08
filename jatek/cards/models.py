@@ -58,6 +58,7 @@ class Dungeon(models.Model):
     def __str__(self):
         return self.name
 
+#enemy cards in dungeon
 class DungeonCard(models.Model):
     dungeon = models.ForeignKey(Dungeon, on_delete=models.CASCADE, related_name='dungeon_cards')
     world_card = models.ForeignKey(WorldCard, on_delete=models.CASCADE)
@@ -67,7 +68,7 @@ class DungeonCard(models.Model):
         ordering = ['order']
         unique_together = ['dungeon', 'order']
 
-class PlayerCardStats(models.Model):
+class PlayerCards(models.Model):
 
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='card_stats')
     world_card = models.ForeignKey(WorldCard, on_delete=models.CASCADE)
@@ -96,19 +97,6 @@ class PlayerCardStats(models.Model):
     class Meta:
         unique_together = ['player', 'world_card']
 
-class PlayerCollection(models.Model):
-
-    player = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='collection')
-    
-    def __str__(self):
-        return f"{self.player.email} gyűjteménye"
-
-class CollectionEntry(models.Model):
-    collection = models.ForeignKey(PlayerCollection, on_delete=models.CASCADE, related_name='entries')
-    card_stats = models.ForeignKey(PlayerCardStats, on_delete=models.CASCADE)
-    
-    class Meta:
-        unique_together = ['collection', 'card_stats']
 
 class PlayerDeck(models.Model):
 
@@ -124,44 +112,13 @@ class PlayerDeck(models.Model):
     def __str__(self):
         return f"{self.name} ({self.player.email})"
 
-class DeckCard(models.Model):
-    deck = models.ForeignKey(PlayerDeck, on_delete=models.CASCADE, related_name='deck_cards')
-    card_stats = models.ForeignKey(PlayerCardStats, on_delete=models.CASCADE)
-    order = models.IntegerField()
-    
-    class Meta:
-        ordering = ['order']
-        unique_together = ['deck', 'order']
 
 class Battle(models.Model):
 
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='battles')
     dungeon = models.ForeignKey(Dungeon, on_delete=models.CASCADE)
     player_deck = models.ForeignKey(PlayerDeck, on_delete=models.CASCADE)
-    won = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"{self.player.email} vs {self.dungeon.name}"
-
-class BattleLog(models.Model):
-    WIN_REASONS = [
-        ('damage', 'Sebzés'),
-        ('type', 'Típus'),
-        ('dungeon', 'Kazamata előny'),
-    ]
-    
-    battle = models.ForeignKey(Battle, on_delete=models.CASCADE, related_name='logs')
-    round_number = models.IntegerField()
-    player_card = models.ForeignKey(PlayerCardStats, on_delete=models.CASCADE)
-    dungeon_card = models.ForeignKey(WorldCard, on_delete=models.CASCADE)
-    player_won = models.BooleanField()
-    reason = models.CharField(max_length=20, choices=WIN_REASONS)
-    
-    class Meta:
-        ordering = ['round_number']
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_player_collection(sender, instance, created, **kwargs):
-    if created:
-        PlayerCollection.objects.create(player=instance)

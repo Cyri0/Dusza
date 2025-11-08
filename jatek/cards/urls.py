@@ -14,10 +14,6 @@ urlpatterns = [
     path('delete-leader-card/<int:card_id>/', views.delete_leader_card, name='delete_leader_card'),
 
 
-    path('add-to-collection/<int:card_id>/', views.add_card_to_collection, name='add_card_to_collection'),
-    path('remove-from-collection/<int:card_stats_id>/', views.remove_card_from_collection, name='remove_card_from_collection'),
-
-
     path('dungeons/', views.dungeon_management, name='dungeon_management'),
     path('create-dungeon/', views.create_dungeon, name='create_dungeon'),
 
