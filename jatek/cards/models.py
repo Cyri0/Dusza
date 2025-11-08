@@ -105,17 +105,45 @@ class PlayerCards(models.Model):
 
 
 class PlayerDeck(models.Model):
-
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='decks')
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
-    cards = models.ManyToManyField(PlayerCards)
+    # 🎯 CSERÉLD KI EZT A SORT:
+    card_ids = models.JSONField(default=list)  # [1, 3, 2] - kártya ID-k sorrendben
     
     def save(self, *args, **kwargs):
         if self.is_active:
             PlayerDeck.objects.filter(player=self.player, is_active=True).update(is_active=False)
         super().save(*args, **kwargs)
     
+    # 🎯 ADD HOZZÁ EZEKET A METÓDUSOKAT:
+    @property
+    def cards(self):
+        """Visszaadja a kártyákat a card_ids sorrendjében"""
+        if not self.card_ids:
+            return PlayerCards.objects.none()
+        
+        card_dict = {card.id: card for card in PlayerCards.objects.filter(id__in=self.card_ids)}
+        ordered_cards = []
+        for card_id in self.card_ids:
+            if card_id in card_dict:
+                ordered_cards.append(card_dict[card_id])
+        return ordered_cards
+    
+    def add_card(self, player_card):
+        """Kártya hozzáadása a paklihoz"""
+        if player_card.id not in self.card_ids:
+            self.card_ids.append(player_card.id)
+            self.save()
+    
+    def remove_card(self, player_card):
+        """Kártya eltávolítása a pakliból"""
+        if player_card.id in self.card_ids:
+            self.card_ids.remove(player_card.id)
+            self.save()
+    
+    def __str__(self):
+        return f"{self.name} ({self.player.email})"
 
 
 class Battle(models.Model):

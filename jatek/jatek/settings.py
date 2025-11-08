@@ -62,6 +62,7 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'jatek' / 'hub',
             BASE_DIR / 'jatek' / 'views',
+            BASE_DIR / 'jatek' / 'battle',
             BASE_DIR / "users" / "templates",
             BASE_DIR / "cards" / "templates",
 

@@ -17,4 +17,6 @@ urlpatterns = [
 
     path('dungeons/', views.dungeon_management, name='dungeon_management'),
     path('create-dungeon/', views.create_dungeon, name='create_dungeon'),
+
+    path('test/', views.test_view, name='test_view'),  # Új teszt útvonal
 ]
