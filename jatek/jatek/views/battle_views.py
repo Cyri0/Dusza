@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from ...cards.services import CardService
 
 def battle_start_view(request):
@@ -6,7 +6,8 @@ def battle_start_view(request):
     player = request.user
     active_deck = CardService.get_player_active_deck(player)
     if not active_deck:
-        return render(request, 'hub/cardselection.html')
+        return redirect('/cards/cardselector/')
+    
     
 
     return render(request, 'battle_site/battle_start.html', {
