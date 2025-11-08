@@ -5,7 +5,7 @@ from cards.models import Dungeon
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=20, choices=[
+    role = models.CharField(max_length=20,  choices=[
         ('jatekos', 'Játékos'),
         ('jatekosmester', 'Játékosmester'),
     ], default='jatekos')

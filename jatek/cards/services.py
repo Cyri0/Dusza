@@ -8,7 +8,7 @@ class CardService:
     
     @staticmethod
     def get_available_dungeons_for_deck(deck):
-        card_count = deck.cards.count()  # 🎯 JAVÍTVA: deck.cards.count()
+        card_count = deck.cards.count()  
         return Dungeon.objects.annotate(
             card_count=models.Count('dungeon_cards')
         ).filter(card_count=card_count).select_related('leader_card')

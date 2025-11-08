@@ -23,19 +23,15 @@ def role_selection(request):
         "get_role_display": User.get_role_display(request.POST.get('role')) if request.method == 'POST' else None
     })
 def register(request):
+    """Egyszerű register view a register/ URL-hez"""
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = PlayerRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            
-            
-            user.backend = 'django.contrib.auth.backends.ModelBackend'  
-            
             login(request, user)
-            return redirect('index')
-                
+            return redirect('dashboard')  # Vagy ahova szeretnéd
     else:
-        form = UserCreationForm()
+        form = PlayerRegistrationForm()
     
     return render(request, 'users/register.html', {'form': form})
 

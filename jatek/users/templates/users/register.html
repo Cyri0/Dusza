@@ -23,8 +23,10 @@
                     <div class="card-body">
                         <form method="POST">
                             {% csrf_token %}
+
                             
                             {% for field in form %}
+                            
                             <div class="mb-3">
                                 <label for="{{ field.id_for_label }}" class="form-label">
                                     {{ field.label }}
@@ -47,12 +49,12 @@
                                 <button type="submit" class="btn btn-primary">Regisztráció</button>
                                 <a href="{% url 'users:role-selection' %}" class="btn btn-outline-secondary">Vissza</a>
                             </div>
+                            
+                            <div class="mt-3 text-center">
+                                <p>Már van fiókod? <a href="{% url 'users:player_login' %}">Jelentkezz be játékosként!</a></p>
+                                <p>Vagy <a href="{% url 'users:gamemaster_login' %}">jelentkezz be játékosmesterként!</a></p>
+                            </div>
                         </form>
-                        
-                        <div class="mt-3 text-center">
-                            <p>Már van fiókod? <a href="{% url 'users:player_login' %}">Jelentkezz be játékosként!</a></p>
-                            <p>Vagy <a href="{% url 'users:gamemaster_login' %}">jelentkezz be játékosmesterként!</a></p>
-                        </div>
                     </div>
                 </div>
             </div>

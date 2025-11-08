@@ -5,17 +5,15 @@ from .models import UserProfile
 
 class PlayerRegistrationForm(UserCreationForm):
 
-    role = forms.ChoiceField(
-        choices=[
-            ('jatekos', 'Játékos'),
-            ('jatekosmester', 'Játékosmester')
-        ],
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
+    role = forms.ChoiceField(choices=[
+        ('jatekos', 'Játékos'),
+        ('jatekosmester', 'Játékosmester'),
+    ], label='Szerepkör')
+
 
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'role']
+        fields = ['username', 'email', 'password1', 'password2', 'role']
 
     def save(self, commit=True):
         user = super().save(commit=False)
