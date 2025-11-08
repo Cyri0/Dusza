@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
+from django.contrib.auth.forms import UserCreationForm
 from users.service import UserService
 from .models import  UserProfile
 from .forms import PlayerRegistrationForm
@@ -10,36 +10,34 @@ from django.contrib.auth import login, authenticate, get_user_model, logout as a
 User = get_user_model()
 
 def role_selection(request):
-    """Szerepkör választás"""
+  
     if request.method == 'POST':
         role = request.POST.get('role')
         if role == 'jatekos':
-            return redirect('player_login')  # Játékos bejelentkezési oldalra
+            return redirect('player_login')  
         elif role == 'jatekosmester':
-            return redirect('gamemaster_login')  # Játékosmester bejelentkezési oldalra
+            return redirect('gamemaster_login')  
     
     return render(request, 'users/role_selection.html')
 def register(request):
-    """Regisztráció"""
     if request.method == 'POST':
-        form = PlayerRegistrationForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            
+            
+            user.backend = 'django.contrib.auth.backends.ModelBackend'  
+            
             login(request, user)
-            messages.success(request, f'Sikeres regisztráció! Üdvözöllek, {user.email}!')
-
-            if user.role == 'gamemaster':
-                return redirect('cards:card-list')
-            else:
-                return redirect('game:game-home')
+            return redirect('index')
+                
     else:
-        form = PlayerRegistrationForm()
+        form = UserCreationForm()
     
     return render(request, 'users/register.html', {'form': form})
 
-
 def logout(request):
-    """Kijelentkezés"""
+
     auth_logout(request)
     messages.info(request, 'Sikeresen kijelentkeztél.')
     return redirect('users:role-selection')
@@ -51,17 +49,17 @@ def player_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         
-        # Hitelesítés
+       
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            # Szerepkör ellenőrzése - itt feltételezem, hogy van PlayerProfile modell
+           
             try:
                 profile = user.userprofile
                 if profile.role == 'jatekos':
                     login(request, user)
                     messages.success(request, 'Sikeres bejelentkezés játékosként!')
-                    return redirect('player_dashboard')  # Írd át a te útvonaladra
+                    return redirect('/users/player/dashboard/') 
                 else:
                     messages.error(request, 'Ez a felhasználó nem játékos!')
             except UserProfile.DoesNotExist:
@@ -77,17 +75,17 @@ def gamemaster_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         
-        # Hitelesítés
+       
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            # Szerepkör ellenőrzése
+           
             try:
                 profile = user.userprofile
                 if UserService.get_role_by_id(user.id) == 'jatekosmester':
                     login(request, user)
                     messages.success(request, 'Sikeres bejelentkezés játékosmesterként!')
-                    return redirect('gamemaster_dashboard')  # Írd át a te útvonaladra
+                    return redirect('/users/player/dashboard/')  
                 else:
                     messages.error(request, 'Ez a felhasználó nem játékosmester!')
             except UserProfile.DoesNotExist:
@@ -100,12 +98,11 @@ def gamemaster_login(request):
 def player_dashboard(request):
     return render(request, 'users/dashboard.html')
 
-def gamemaster_dashboard(request):
-    return render(request, 'users/dashboard.html')
+
 
 
 def user_login(request):
-    """Bejelentkezés"""
+
     if request.method == 'POST':
         form = UserProfile(request.POST)
         if form.is_valid():
@@ -113,19 +110,18 @@ def user_login(request):
             password = form.cleaned_data['password']
             role = form.cleaned_data['role']
             
-            # Felhasználó hitelesítése
+        
             user = authenticate(request, email=email, password=password)
             
             if user is not None:
-                # Szerepkör ellenőrzése
+                
                 if user.role != role:
                     messages.error(request, 'Hibás szerepkör!')
                     return render(request, 'users/player_login.html', {'form': form})
                 
                 login(request, user)
                 messages.success(request, f'Sikeres bejelentkezés! Üdvözöllek, {user.email}!')
-                
-                # Szerepkörtől függő átirányítás
+              
                 if user.role == 'gamemaster':
                     return redirect('cards:card-list')
                 else:
