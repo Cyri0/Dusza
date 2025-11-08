@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from users.service import UserService
 from .models import  UserProfile
 from .forms import PlayerRegistrationForm
 from django.contrib.auth import login, authenticate, get_user_model, logout as auth_logout
@@ -82,7 +84,7 @@ def gamemaster_login(request):
             # Szerepkör ellenőrzése
             try:
                 profile = user.userprofile
-                if profile.role == 'jatekosmester':
+                if UserService.get_role_by_id(user.id) == 'jatekosmester':
                     login(request, user)
                     messages.success(request, 'Sikeres bejelentkezés játékosmesterként!')
                     return redirect('gamemaster_dashboard')  # Írd át a te útvonaladra

@@ -2,15 +2,16 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
+
 class PlayerRegistrationForm(UserCreationForm):
-  
-    role = forms.MultipleChoiceField(
-    choices=[
-        ('jatekos', 'Játékos'),
-        ('jatekosmester', 'Játékosmester')
-    ],
-    widget=forms.SelectMultiple(attrs={'class': 'form-control'})
-)
+
+    role = forms.ChoiceField(
+        choices=[
+            ('jatekos', 'Játékos'),
+            ('jatekosmester', 'Játékosmester')
+        ],
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = User
