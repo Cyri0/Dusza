@@ -6,7 +6,7 @@
   <title>Damareen – Szerepkör választás</title>
   {% load static %}
 <link rel="stylesheet" href="{%static 'style.css'%}">
-  <script src="{%static 'script.js'%}" defer></script>
+<script src="{%static 'script.js'%}" defer></script>
 </head>
 <body>
   <!-- Navigációs sáv - Django template részekkel -->
@@ -17,8 +17,8 @@
         {% if user.is_authenticated %}
           <span class="navbar-text">
             Üdv, <strong>{{ user.email }}</strong>
-            <span class="role-badge {% if user.role == 'gamemaster' %}role-gamemaster{% else %}role-player{% endif %}">
-              {{ user.get_role_display }}
+            <span class="role-badge {% if role == 'gamemaster' %}role-gamemaster{% else %}role-player{% endif %}">
+              {{ get_role_display }}
             </span>
           </span>
           <a class="nav-link" href="{% url 'users:logout' %}">🚪 Kijelentkezés</a>

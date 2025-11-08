@@ -19,8 +19,8 @@ def role_selection(request):
             return redirect('gamemaster_login')  
     
     return render(request, 'users/role_selection.html', {
-        "role":role
-        
+        "role":  request.POST.get('role'),
+        "get_role_display": User.get_role_display(request.POST.get('role')) if request.method == 'POST' else None
     })
 def register(request):
     if request.method == 'POST':
