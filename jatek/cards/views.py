@@ -39,7 +39,7 @@ def card_creator(request):
         'is_game_master': is_game_master(request.user),
     }
     
-    return render(request, 'cards/card_creator.html', context)
+    return render(request, 'card_creator.html', context)
 
 @login_required
 @user_passes_test(is_game_master)
@@ -228,6 +228,18 @@ def create_dungeon(request):
                 messages.error(request, f'Hiba: {error}')
     
     return redirect('dungeon_management')
+
+@login_required
+def card_selector(request):
+    """Kártyaválasztó oldal a játékosok számára"""
+    player = request.user
+    player_collection = PlayerCardStats.objects.filter(player=player).select_related('world_card')
+    
+    context = {
+        'player_collection': player_collection,
+    }
+    
+    return render(request, 'cards/card_selection.html', context)
 
 # Egyszerű API végpontok (ha később szükséges)
 def api_world_cards(request):
