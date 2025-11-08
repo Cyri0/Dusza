@@ -56,7 +56,7 @@ def player_login(request):
             # Szerepkör ellenőrzése - itt feltételezem, hogy van PlayerProfile modell
             try:
                 profile = user.userprofile
-                if profile.role == 'player':
+                if profile.role == 'jatekos':
                     login(request, user)
                     messages.success(request, 'Sikeres bejelentkezés játékosként!')
                     return redirect('player_dashboard')  # Írd át a te útvonaladra
