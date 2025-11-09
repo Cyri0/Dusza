@@ -208,13 +208,13 @@ function renderPlayerCards() {
     const grid = document.getElementById('playerCardsGrid');
     grid.innerHTML = '';
 
-    // Csak a sima kártyákat jelenítjük meg (nincsenek vezérkártyák)
-    //const normalPlayerCards = playerCollection.filter(card => !card.isLeaderCard);
+    //Csak a sima kártyákat jelenítjük meg (nincsenek vezérkártyák)
+    const normalPlayerCards = playerCollection.filter(card => !card.isLeaderCard);
 
-    normalPlayerCards.forEach(card => {
-        const cardEl = document.createElement('div');
-        cardEl.className = `card-item ${card.element} ${selectedNormalCards.includes(card.id) ? 'selected' : ''}`;
-        cardEl.setAttribute('data-card-id', card.id);
+    // normalPlayerCards.forEach(card => {
+    //     const cardEl = document.createElement('div');
+    //     cardEl.className = `card-item ${card.element} ${selectedNormalCards.includes(card.id) ? 'selected' : ''}`;
+    //     cardEl.setAttribute('data-card-id', card.id);
         
         // // Emoji kiválasztása a kártya típusa alapján
         // let emoji = '⚔️'; // alapértelmezett
@@ -251,10 +251,10 @@ function renderPlayerCards() {
         
         cardEl.onclick = () => togglePlayerCard(card.id);
         grid.appendChild(cardEl);
-    });
+    };
 
     updatePlayerCardCount();
-}
+
 
 function togglePlayerCard(cardId) {
     const cardEl = document.querySelector(`#playerCardsGrid .card-item[data-card-id="${cardId}"]`);
