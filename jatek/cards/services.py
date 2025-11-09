@@ -1,5 +1,6 @@
 from django.db import models
 from .models import DungeonDeck, WorldCard, Dungeon, PlayerDeck, PlayerCards, Battle
+from users.service import UserService
 
 class CardService:
     @staticmethod
@@ -64,3 +65,29 @@ class CardService:
         if current_position < len(deck.card_ids) - 1:
             return CardService.card_player_pos_change(deck, current_position, current_position + 1)
         return deck
+    
+    @staticmethod
+    def get_dungeon_by_id(dungeon_id):
+        try:
+            return Dungeon.objects.get(id=dungeon_id)
+        except Dungeon.DoesNotExist:
+            return None
+        
+    @staticmethod
+    def get_dungeon_by_user(user):
+        try:
+            return UserService.get_dungeon_by_user(user)
+        except Dungeon.DoesNotExist:
+            return None
+        
+    @staticmethod
+    def get_card_hp(card):
+        return card.base_health
+    
+    @staticmethod
+    def get_card_damage(card):
+        return card.base_damage
+    
+    @staticmethod
+    def get_card_element(card):
+        return card.card_type
