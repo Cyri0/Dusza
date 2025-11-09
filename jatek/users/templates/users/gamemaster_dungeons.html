@@ -20,7 +20,7 @@
     <div class="dungeons-grid" id="gmDungeonsGrid"></div>
   </div>
 
-  <!-- Pakli szerkesztés -->
+
   <div id="gmDeckScreen" class="screen">
     <button class="btn return-btn" onclick="backToGMDungeons()">⬅ Vissza</button>
     <div class="container">
@@ -42,7 +42,6 @@
     </div>
   </div>
 
-  <!-- Modálok -->
   <div id="createDungeonModal" class="modal">
     <div class="modal-content">
       <h2>➕ Új Kazamata Létrehozása</h2>
@@ -161,8 +160,7 @@
   <script>
     function editDungeon(dungeonId) {
       currentDungeon = window.allDungeons.find(d => d.id === dungeonId);
-      
-      // Betöltjük a kazamata specifikus kártyákat
+    
       selectedCards = currentDungeon.enemyCards || [];
       leaderCard = currentDungeon.leaderCard || null;
       

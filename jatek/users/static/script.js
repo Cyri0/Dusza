@@ -16,7 +16,7 @@ const availableCards = [
     { id: 10, name: "Orgyilkos", element: "air", attack: 9, health: 1, isCustom: false }
 ];
 
-// Kazamaták tömbje - most már globálisan elérhető és megosztott
+
 window.allDungeons = [
     { id: 1, name: "Hegy Egyszerű", type: "Egyszerű", variant: "Hegy", minCards: 1, maxCards: 1, cardCount: 0, enemyCards: [], leaderCard: null, visibleToPlayer: true },
     { id: 2, name: "Sivatag Egyszerű", type: "Egyszerű", variant: "Sivatag", minCards: 1, maxCards: 1, cardCount: 0, enemyCards: [], leaderCard: null, visibleToPlayer: true },
@@ -35,7 +35,6 @@ window.allDungeons = [
     { id: 15, name: "Dzsungel Nagy", type: "Nagy", variant: "Dzsungel", minCards: 6, maxCards: 6, cardCount: 0, enemyCards: [], leaderCard: null, visibleToPlayer: true }
 ];
 
-// Betöltjük a mentett kazamatákat és egyedi kártyákat, ha vannak
 function loadFromLocalStorage() {
     const savedDungeons = localStorage.getItem('allDungeons');
     if (savedDungeons) {
@@ -46,7 +45,6 @@ function loadFromLocalStorage() {
         customCards = JSON.parse(savedCustomCards);
     }
     
-    // Betöltjük a következő ID-kat is
     const savedNextCardId = localStorage.getItem('nextCardId');
     if (savedNextCardId) {
         nextCardId = parseInt(savedNextCardId);
@@ -57,7 +55,7 @@ function loadFromLocalStorage() {
     }
 }
 
-// Elmentjük a kazamatákat és egyedi kártyákat a localStorage-ba
+
 function saveToLocalStorage() {
     localStorage.setItem('allDungeons', JSON.stringify(window.allDungeons));
     localStorage.setItem('customCards', JSON.stringify(customCards));
@@ -133,7 +131,6 @@ function renderPlayerDungeons() {
     const grid = document.getElementById('playerDungeonsGrid');
     grid.innerHTML = '';
 
-    // Csak a látható kazamatákat jelenítjük meg a játékosnak
     const playerDungeons = window.allDungeons.filter(dungeon => dungeon.visibleToPlayer);
 
     if (playerDungeons.length === 0) {
@@ -152,7 +149,7 @@ function renderPlayerDungeons() {
         const card = document.createElement('div');
         card.className = 'dungeon-card';
         
-        // Ellenőrizzük, hogy a kazamata elérhető-e a kiválasztott kártyák alapján
+
         let isEnabled = false;
         let requirementText = '';
         
@@ -188,13 +185,13 @@ function renderPlayerDungeons() {
 function enterDungeon(dungeonId) {
     currentDungeon = window.allDungeons.find(d => d.id === dungeonId);
     
-    // Ellenőrizzük, hogy a kazamatában vannak-e kártyák
+
     if (currentDungeon.cardCount === 0) {
         alert('❌ Ez a kazamata még nincs beállítva!\n\nA játékmesternek először be kell állítania a kártyákat ehhez a kazamatához.');
         return;
     }
     
-    // Ellenőrizzük, hogy a kiválasztott kártyák száma megfelel-e a kazamata típusának
+
     if (selectedCards.length < currentDungeon.minCards || selectedCards.length > currentDungeon.maxCards) {
         alert(`❌ Nem megfelelő számú kártya van kiválasztva ehhez a kazamatához!\n\nSzükséges: ${currentDungeon.maxCards} kártya\nKiválasztva: ${selectedCards.length} kártya`);
         return;
@@ -214,8 +211,8 @@ function renderPlayerCards() {
         cardEl.className = `card-item ${card.element} ${selectedCards.includes(card.id) ? 'selected' : ''}`;
         cardEl.setAttribute('data-card-id', card.id);
         
-        // Emoji kiválasztása a kártya típusa alapján
-        let emoji = '⚔️'; // alapértelmezett
+
+        let emoji = '⚔️'; 
         if (card.name.includes('Varázsló')) emoji = '🔮';
         if (card.name.includes('Íjász')) emoji = '🏹';
         if (card.name.includes('Lovag')) emoji = '🛡️';
@@ -224,7 +221,7 @@ function renderPlayerCards() {
         if (card.name.includes('Pap')) emoji = '🙏';
         if (card.name.includes('Orgyilkos')) emoji = '🗡️';
         if (card.isCustom) {
-            // Egyedi kártyákhoz speciális emojik
+       
             if (card.name.includes('Tűz') || card.name.includes('Démon')) emoji = '🔥';
             if (card.name.includes('Jég') || card.name.includes('Fagy')) emoji = '❄️';
             if (card.name.includes('Villám')) emoji = '⚡';
@@ -270,7 +267,7 @@ function togglePlayerCard(cardId) {
 
 function updatePlayerCardCount() {
     document.getElementById('playerCardCount').textContent = selectedCards.length;
-    // Frissítjük a kazamatákat is, hogy a gombok állapota megváltozzon
+
     if (typeof renderPlayerDungeons === 'function') {
         renderPlayerDungeons();
     }
@@ -287,21 +284,21 @@ function startBattle() {
         return;
     }
 
-    // Ellenőrizzük, hogy a kiválasztott kártyák száma megfelel-e a kazamata típusának
+
     if (selectedCards.length < currentDungeon.minCards || selectedCards.length > currentDungeon.maxCards) {
         alert(`❌ Nem megfelelő számú kártya van kiválasztva ehhez a kazamatához!\n\nSzükséges: ${currentDungeon.maxCards} kártya\nKiválasztva: ${selectedCards.length} kártya`);
         return;
     }
 
-    // Összegyűjtjük a játékos kártyáinak teljes adatait
+
     const allCards = [...availableCards, ...customCards];
     const playerCardsData = selectedCards.map(cardId => allCards.find(card => card.id === cardId));
 
-    // Elmentjük a localStorage-ba
+
     localStorage.setItem('playerBattleCards', JSON.stringify(playerCardsData));
     localStorage.setItem('currentDungeon', JSON.stringify(currentDungeon));
 
-    // Átirányítjuk a battle.html-re
+
     window.location.href = 'battle.html';
 }
 
@@ -348,7 +345,7 @@ function toggleDungeonVisibility(dungeonId, isVisible) {
         dungeon.visibleToPlayer = isVisible;
         saveToLocalStorage();
         
-        // Frissítjük a státuszt is
+ 
         const statusElement = document.querySelector(`#visibility-${dungeonId}`).closest('.dungeon-card').querySelector('p:nth-child(4)');
         if (statusElement) {
             statusElement.textContent = isVisible ? '👁️ Látható a játékosoknak' : '👁️‍🗨️ Rejtve a játékosok elől';
@@ -359,8 +356,7 @@ function toggleDungeonVisibility(dungeonId, isVisible) {
 
 function editDungeon(dungeonId) {
     currentDungeon = window.allDungeons.find(d => d.id === dungeonId);
-    
-    // Betöltjük a kazamata specifikus kártyákat
+
     selectedCards = currentDungeon.enemyCards || [];
     leaderCard = currentDungeon.leaderCard || null;
     
@@ -386,8 +382,8 @@ function renderGMCards() {
         
         if (isSelected) cardEl.classList.add('selected');
 
-        // Emoji kiválasztása a kártya típusa alapján
-        let emoji = '⚔️'; // alapértelmezett
+
+        let emoji = '⚔️'; 
         if (card.name.includes('Varázsló')) emoji = '🔮';
         if (card.name.includes('Íjász')) emoji = '🏹';
         if (card.name.includes('Lovag')) emoji = '🛡️';
@@ -396,7 +392,7 @@ function renderGMCards() {
         if (card.name.includes('Pap')) emoji = '🙏';
         if (card.name.includes('Orgyilkos')) emoji = '🗡️';
         if (card.isCustom) {
-            // Egyedi kártyákhoz speciális emojik
+
             if (card.name.includes('Tűz') || card.name.includes('Démon')) emoji = '🔥';
             if (card.name.includes('Jég') || card.name.includes('Fagy')) emoji = '❄️';
             if (card.name.includes('Villám')) emoji = '⚡';
@@ -498,7 +494,7 @@ function backToGMDungeons() {
 }
 
 function saveDungeon() {
-    // Ellenőrizzük, hogy a kiválasztott kártyák száma megfelel-e a kazamata követelményeinek
+
     if (selectedCards.length < currentDungeon.minCards || selectedCards.length > currentDungeon.maxCards) {
         alert(`❌ A kazamatához ${currentDungeon.minCards}-${currentDungeon.maxCards} kártya szükséges!\n\nJelenleg ${selectedCards.length} kártya van kiválasztva.`);
         return;
@@ -514,12 +510,11 @@ function saveDungeon() {
         return;
     }
 
-    // Frissítjük a kazamata adatait
     currentDungeon.enemyCards = [...selectedCards];
     currentDungeon.leaderCard = leaderCard;
     currentDungeon.cardCount = selectedCards.length;
 
-    // Elmentjük a kazamaták tömbjét
+
     saveToLocalStorage();
 
     console.log('=== SAVE DUNGEON ===');
@@ -563,7 +558,7 @@ function createDungeon() {
         return;
     }
 
-    // Meghatározzuk a kártya követelményeket a típus alapján
+
     let minCards = 1;
     let maxCards = 1;
     if (type === "Kis") {
@@ -584,11 +579,11 @@ function createDungeon() {
         cardCount: 0,
         enemyCards: [],
         leaderCard: null,
-        visibleToPlayer: true // Alapértelmezetten látható
+        visibleToPlayer: true 
     };
 
     window.allDungeons.push(newDungeon);
-    saveToLocalStorage(); // Új kazamata hozzáadása után mentés
+    saveToLocalStorage();
 
     console.log('=== CREATE DUNGEON ===');
     console.log('New dungeon:', newDungeon);
@@ -635,7 +630,7 @@ function createCard() {
     };
 
     customCards.push(newCard);
-    saveToLocalStorage(); // Új kártya hozzáadása után mentés
+    saveToLocalStorage(); 
 
     console.log('=== CREATE CARD ===');
     console.log('New card:', newCard);
@@ -646,7 +641,7 @@ function createCard() {
     renderGMCards();
 }
 
-// Vezérkártya létrehozása
+
 function showCreateLeaderCardModal() {
     if (!currentDungeon) {
         alert('Hiba: Nincs kazamata kiválasztva!');
@@ -778,7 +773,7 @@ function deleteCustomCard(event, cardId) {
     }
 
     customCards = customCards.filter(card => card.id !== cardId);
-    saveToLocalStorage(); // Kártya törlése után mentés
+    saveToLocalStorage(); 
 
     console.log('=== DELETE CARD ===');
     console.log('Deleted card ID:', cardId);
@@ -786,7 +781,7 @@ function deleteCustomCard(event, cardId) {
     renderGMCards();
 }
 
-// Segédfüggvények az elemekhez
+
 function getElementEmoji(element) {
     switch(element) {
         case 'earth': return '🌍';
@@ -839,7 +834,7 @@ function playerLogin() {
         return;
     }
     console.log('Player login:', username);
-    window.location.href = 'player_dungeons.html';
+    window.location.href = 'player/dungeons';
 }
 
 function gamemasterLogin() {
@@ -850,18 +845,18 @@ function gamemasterLogin() {
         return;
     }
     console.log('Gamemaster login:', username);
-    window.location.href = 'gamemaster_dungeons.html';
+    window.location.href = 'gamemaster/dungeons';
 }
 
 function endBattle() {
-    window.location.href = 'player_dungeons.html';
+    window.location.href = 'player/dungeons';
 }
 
-// Battle simulation functions
+
 function loadBattleCards() {
     const currentDungeon = JSON.parse(localStorage.getItem('currentDungeon')) || {};
     
-    // Ellenfél kártyák betöltése a kazamata adataiból
+
     const enemyCards = [];
     if (currentDungeon.enemyCards && currentDungeon.enemyCards.length > 0) {
         const allCards = [...availableCards, ...customCards];
@@ -870,7 +865,7 @@ function loadBattleCards() {
     
     const playerCards = JSON.parse(localStorage.getItem('playerBattleCards')) || [];
 
-    // Ha nincsenek kártyák, visszatérünk
+
     if (enemyCards.length === 0 || playerCards.length === 0) {
         console.warn('Nincsenek kártyák a harchoz');
         return { enemyCards: [], playerCards: [], currentDungeon };
@@ -882,7 +877,7 @@ function loadBattleCards() {
 function simulateBattle() {
     const { enemyCards, playerCards, currentDungeon } = loadBattleCards();
 
-    // Ha nincsenek kártyák, alapértelmezett értékeket használunk
+
     const finalEnemyCards = enemyCards.length > 0 ? enemyCards : [
         { name: "Sötét Varázsló", attack: 8, health: 3, element: "fire" },
         { name: "Éjjeli Árnyék", attack: 6, health: 2, element: "air" }
@@ -906,8 +901,7 @@ function displayCards(cards, containerId, leaderCardId = null) {
         const cardElement = document.createElement('div');
         const isLeader = leaderCardId !== null && card.id === leaderCardId;
         cardElement.className = `battle-card ${card.element} ${isLeader ? 'leader' : ''}`;
-        
-        // Emoji kiválasztása
+
         let emoji = '⚔️';
         if (card.name.includes('Varázsló')) emoji = '🔮';
         if (card.name.includes('Íjász')) emoji = '🏹';
@@ -974,7 +968,7 @@ function simulateBattleRounds(enemyCards, playerCards, currentDungeon) {
         battleLog.appendChild(roundElement);
     }
     
-    // Összesített eredmény
+
     const totalRounds = Math.min(enemyCards.length, playerCards.length);
     const resultElement = document.createElement('div');
     resultElement.className = 'battle-result';
@@ -1007,16 +1001,16 @@ function calculateRoundResult(playerCard, enemyCard) {
 }
 
 window.onload = () => {
-    loadFromLocalStorage(); // Betöltjük a mentett kazamatákat és egyedi kártyákat
+    loadFromLocalStorage(); 
 
     const path = window.location.pathname;
-    if (path.includes('player_dungeons.html')) {
+    if (path.includes('player/dungeons')) {
         renderPlayerCards();
         renderPlayerDungeons();
     }
-    if (path.includes('gamemaster_dungeons.html')) renderGMDungeons();
+    if (path.includes('gamemaster/dungeons')) renderGMDungeons();
     
-    // Battle oldal betöltésekor automatikusan indítsuk a harcot
+
     if (path.includes('battle.html') && typeof simulateBattle === 'function') {
         simulateBattle();
     }

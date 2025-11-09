@@ -14,7 +14,6 @@
   <div class="container">
     <h1>🗡️ Válassz Kazamatát</h1>
     
-    <!-- Pakli összeállítás - mindig látható -->
     <div class="deck-builder-container">
       <h2>📚 Pakli Összeállítás</h2>
       <div class="deck-info">
@@ -32,22 +31,20 @@
       <div class="cards-grid" id="playerCardsGrid"></div>
     </div>
 
-    <!-- Kazamata választás -->
+
     <p class="info-message">Válassz egy kazamatát a kiválasztott kártyákkal!</p>
     <div class="dungeons-grid" id="playerDungeonsGrid"></div>
   </div>
 
   <script>
-    // Betöltéskor rendereljük a kártyákat és a kazamatákat
     document.addEventListener('DOMContentLoaded', function() {
       renderPlayerCards();
       renderPlayerDungeons();
     });
 
-    // Frissítjük a kazamatákat kártya választáskor
     function updatePlayerCardCount() {
       document.getElementById('playerCardCount').textContent = selectedCards.length;
-      renderPlayerDungeons(); // Újrarendereljük a kazamatákat
+      renderPlayerDungeons(); 
     }
   </script>
 </body>

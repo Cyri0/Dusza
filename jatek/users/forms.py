@@ -19,7 +19,7 @@ class PlayerRegistrationForm(UserCreationForm):
         user = super().save(commit=False)
         if commit:
             user.save()
-            # Most hozzuk létre a UserProfile-t a megadott szerepkörrel
+          
             UserProfile.objects.create(user=user, role=self.cleaned_data['role'])
         return user
 

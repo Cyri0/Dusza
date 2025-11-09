@@ -10,11 +10,11 @@
 <script src="{%static 'script.js'%}" defer></script>
 </head>
 <body>
-  <!-- Navigációs sáv - Django template részekkel -->
+
   
 
   <div class="container">
-    <!-- Üzenetek megjelenítése -->
+ 
     {% if messages %}
       {% for message in messages %}
         <div class="message message-{{ message.tags }}">
@@ -29,9 +29,7 @@
         <h1>⚔️ DAMAREEN</h1>
         <p class="subtitle">Válaszd ki a szerepköröd</p>
 
-        <!-- Bejelentkezett felhasználó esetén -->
 
-          <!-- Nem bejelentkezett felhasználó esetén -->
           <div class="form-buttons">
             <button class="btn" onclick="goToPlayerLogin()">🎮 Játékosként lépek be</button>
             <button class="btn btn-success" onclick="goToGamemasterLogin()">👑 Játékmesterként lépek be</button>

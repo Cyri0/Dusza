@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from users.service import UserService
 from .models import  UserProfile
 from .forms import PlayerRegistrationForm
 from django.contrib.auth import login, authenticate, get_user_model, logout as auth_logout
@@ -29,7 +27,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/users')  # Vagy ahova szeretnéd
+            return redirect('/users')  
     else:
         form = PlayerRegistrationForm()
     
@@ -78,7 +76,7 @@ def gamemaster_login(request):
         if user is not None:
             try:
                 profile = user.userprofile
-                if profile.role == 'jatekosmester':  # 🔥 JAVÍTVA
+                if profile.role == 'jatekosmester':  
                     login(request, user)
                     messages.success(request, 'Sikeres bejelentkezés játékosmesterként!')
                     return redirect('/users/gamemaster/dungeons/')  
