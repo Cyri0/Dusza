@@ -16,7 +16,217 @@
       <p class="info-message" style="margin: 0;">Válassz ki egy kazamatát és állítsd össze az ellenfél paklijat! Be tudod kapcsolni a láthatóságot, hogy a játékosok is láthassák.</p>
       <button class="btn btn-success" onclick="showCreateDungeonModal()">➕ Új Kazamata</button>
     </div>
-    <div class="dungeons-grid" id="gmDungeonsGrid"></div>
+    <div class="dungeons-grid" id="gmDungeonsGrid"><div class="dungeon-card">
+            <h3>Hegy Egyszerű</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Egyszerű</span>
+                <span class="tag variant">Hegy</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 1 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-1" onchange="toggleDungeonVisibility(1, this.checked)">
+                <label for="visibility-1">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(1)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Sivatag Egyszerű</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Egyszerű</span>
+                <span class="tag variant">Sivatag</span>
+            </div>
+            <p style="color: #667eea;">📦 3 kártya beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 1 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-2" onchange="toggleDungeonVisibility(2, this.checked)">
+                <label for="visibility-2">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(2)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Mocsár Egyszerű</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Egyszerű</span>
+                <span class="tag variant">Mocsár</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #28a745;">👁️ Látható a játékosoknak</p>
+            <p><strong>Kártya követelmény:</strong> 1 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-3" checked="" onchange="toggleDungeonVisibility(3, this.checked)">
+                <label for="visibility-3">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(3)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Barlang Egyszerű</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Egyszerű</span>
+                <span class="tag variant">Barlang</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 1 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-4" onchange="toggleDungeonVisibility(4, this.checked)">
+                <label for="visibility-4">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(4)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Dzsungel Egyszerű</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Egyszerű</span>
+                <span class="tag variant">Dzsungel</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 1 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-5" onchange="toggleDungeonVisibility(5, this.checked)">
+                <label for="visibility-5">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(5)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Hegy Kis</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Kis</span>
+                <span class="tag variant">Hegy</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #28a745;">👁️ Látható a játékosoknak</p>
+            <p><strong>Kártya követelmény:</strong> 4 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-6" checked="" onchange="toggleDungeonVisibility(6, this.checked)">
+                <label for="visibility-6">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(6)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Sivatag Kis</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Kis</span>
+                <span class="tag variant">Sivatag</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 4 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-7" onchange="toggleDungeonVisibility(7, this.checked)">
+                <label for="visibility-7">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(7)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Mocsár Kis</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Kis</span>
+                <span class="tag variant">Mocsár</span>
+            </div>
+            <p style="color: #667eea;">📦 4 kártya beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 4 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-8" onchange="toggleDungeonVisibility(8, this.checked)">
+                <label for="visibility-8">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(8)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Barlang Kis</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Kis</span>
+                <span class="tag variant">Barlang</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #28a745;">👁️ Látható a játékosoknak</p>
+            <p><strong>Kártya követelmény:</strong> 4 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-9" checked="" onchange="toggleDungeonVisibility(9, this.checked)">
+                <label for="visibility-9">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(9)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Dzsungel Kis</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Kis</span>
+                <span class="tag variant">Dzsungel</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 4 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-10" onchange="toggleDungeonVisibility(10, this.checked)">
+                <label for="visibility-10">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(10)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Hegy Nagy</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Nagy</span>
+                <span class="tag variant">Hegy</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 6 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-11" onchange="toggleDungeonVisibility(11, this.checked)">
+                <label for="visibility-11">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(11)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Sivatag Nagy</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Nagy</span>
+                <span class="tag variant">Sivatag</span>
+            </div>
+            <p style="color: #667eea;">📦 2 kártya beállítva</p>
+            <p style="color: #28a745;">👁️ Látható a játékosoknak</p>
+            <p><strong>Kártya követelmény:</strong> 6 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-12" checked="" onchange="toggleDungeonVisibility(12, this.checked)">
+                <label for="visibility-12">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(12)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Mocsár Nagy</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Nagy</span>
+                <span class="tag variant">Mocsár</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 6 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-13" onchange="toggleDungeonVisibility(13, this.checked)">
+                <label for="visibility-13">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(13)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Barlang Nagy</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Nagy</span>
+                <span class="tag variant">Barlang</span>
+            </div>
+            <p style="color: #999;">Még nincs beállítva</p>
+            <p style="color: #dc3545;">👁️‍🗨️ Rejtve a játékosok elől</p>
+            <p><strong>Kártya követelmény:</strong> 6 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-14" onchange="toggleDungeonVisibility(14, this.checked)">
+                <label for="visibility-14">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(14)">Szerkesztés</button>
+        </div><div class="dungeon-card">
+            <h3>Dzsungel Nagy</h3>
+            <div class="dungeon-tags">
+                <span class="tag">Nagy</span>
+                <span class="tag variant">Dzsungel</span>
+            </div>
+            <p style="color: #667eea;">📦 6 kártya beállítva</p>
+            <p style="color: #28a745;">👁️ Látható a játékosoknak</p>
+            <p><strong>Kártya követelmény:</strong> 6 kártya</p>
+            <div class="visibility-toggle">
+                <input type="checkbox" id="visibility-15" checked="" onchange="toggleDungeonVisibility(15, this.checked)">
+                <label for="visibility-15">Megjelenítés a játékosoknál</label>
+            </div>
+            <button class="btn" onclick="editDungeon(15)">Szerkesztés</button>
+        </div></div>
   </div>
 
   <!-- Pakli szerkesztés -->

@@ -8,34 +8,12 @@ let currentPlayer = null;
 let playerCollection = [];
 
 const availableCards = [
-    { id: 1, name: "Harcos", element: "earth", attack: 5, health: 3, isCustom: false },
-    { id: 2, name: "Varázsló", element: "fire", attack: 7, health: 2, isCustom: false },
-    { id: 3, name: "Íjász", element: "air", attack: 4, health: 2, isCustom: false },
-    { id: 4, name: "Lovag", element: "earth", attack: 6, health: 5, isCustom: false },
-    { id: 7, name: "Óriás", element: "earth", attack: 10, health: 8, isCustom: false },
-    { id: 8, name: "Sárkány", element: "fire", attack: 12, health: 10, isCustom: false },
-    { id: 9, name: "Pap", element: "water", attack: 2, health: 4, isCustom: false },
-    { id: 10, name: "Orgyilkos", element: "air", attack: 9, health: 1, isCustom: false }
+
 ];
 
 // Kazamaták tömbje - most már globálisan elérhető és megosztott
 window.allDungeons = [
-    { id: 1, name: "Hegy Egyszerű", type: "Egyszerű", variant: "Hegy", minCards: 1, maxCards: 1, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 2, name: "Sivatag Egyszerű", type: "Egyszerű", variant: "Sivatag", minCards: 1, maxCards: 1, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 3, name: "Mocsár Egyszerű", type: "Egyszerű", variant: "Mocsár", minCards: 1, maxCards: 1, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 4, name: "Barlang Egyszerű", type: "Egyszerű", variant: "Barlang", minCards: 1, maxCards: 1, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 5, name: "Dzsungel Egyszerű", type: "Egyszerű", variant: "Dzsungel", minCards: 1, maxCards: 1, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 6, name: "Hegy Kis", type: "Kis", variant: "Hegy", minCards: 4, maxCards: 4, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 7, name: "Sivatag Kis", type: "Kis", variant: "Sivatag", minCards: 4, maxCards: 4, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 8, name: "Mocsár Kis", type: "Kis", variant: "Mocsár", minCards: 4, maxCards: 4, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 9, name: "Barlang Kis", type: "Kis", variant: "Barlang", minCards: 4, maxCards: 4, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 10, name: "Dzsungel Kis", type: "Kis", variant: "Dzsungel", minCards: 4, maxCards: 4, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 11, name: "Hegy Nagy", type: "Nagy", variant: "Hegy", minCards: 6, maxCards: 6, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 12, name: "Sivatag Nagy", type: "Nagy", variant: "Sivatag", minCards: 6, maxCards: 6, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 13, name: "Mocsár Nagy", type: "Nagy", variant: "Mocsár", minCards: 6, maxCards: 6, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 14, name: "Barlang Nagy", type: "Nagy", variant: "Barlang", minCards: 6, maxCards: 6, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true },
-    { id: 15, name: "Dzsungel Nagy", type: "Nagy", variant: "Dzsungel", minCards: 6, maxCards: 6, cardCount: 0, enemyCards: [], leaderCards: [], visibleToPlayer: true }
-];
+   ];
 
 // Betöltjük a mentett kazamatákat és egyedi kártyákat, ha vannak
 function loadFromLocalStorage() {
