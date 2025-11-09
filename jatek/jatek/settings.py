@@ -158,7 +158,6 @@ USE_TZ = True
 import os
 print("Szar",BASE_DIR / "static")
 STATIC_URL = 'static/'
-STATIC_ROOT = '/var/www/html/project/jatek/static'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [BASE_DIR / "static/" ]
 
