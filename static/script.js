@@ -888,11 +888,11 @@ window.onclick = function(event) {
 }
 
 function goToPlayerLogin() {
-    window.location.href = 'users/player/login';
+    window.location.href = '/player/login';
 }
 
 function goToGamemasterLogin() {
-    window.location.href = 'users/gamemaster/login';
+    window.location.href = '/gamemaster/login';
 }
 
 function playerLogin() {
