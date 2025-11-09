@@ -8,8 +8,8 @@ from users.models import UserProfile
 
 def battle_start_view(request):
     player = request.user
-    active_deck = CardService.get_player_active_deck(player)
-    enemy_deck = UserService.get_dungeon_cards_for_user(player)
+    active_deck = CardService.get_player_active_deck(player.id)
+    enemy_deck = UserService.get_dungeon_cards_for_user(player.id)
     
     if not active_deck or not enemy_deck:
         return redirect('/cards/cardselector/')
@@ -19,35 +19,35 @@ def battle_start_view(request):
             # Támadás gomb
             case 'attack':
                 battle_round_view(request)
-                return redirect('/battle/start/')
+                return redirect('/battle')
 
             # Balra mozgatás
             case 'move_left':  
                 current_position = int(request.POST.get('move_left'))
                 active_deck = CardService.move_card_left(active_deck, current_position)
-                return redirect('/battle/start/')
+                return redirect('/battle/')
             
             # Jobbra mozgatás  
             case 'move_right': 
                 current_position = int(request.POST.get('move_right'))
                 active_deck = CardService.move_card_right(active_deck, current_position)
-                return redirect('/battle/start/')
+                return redirect('/battle/')
             
             case 'upgrade_health':
                 if UserProfile.objects.get(user=player).upgrade_points > 0:
                     card_position = int(request.POST.get('upgrade_health'))
                     CardService.upgrade_card(active_deck, 'health', card_position)  # 🎯 JAVÍTVA: nem kell active_deck-nek értékül adni
                     UserProfile.objects.filter(user=player).update(upgrade_points=F('upgrade_points') - 1)  # 🎯 JAVÍTVA
-                return redirect('/battle/start/') 
+                return redirect('/battle/')
 
             case 'upgrade_damage':
                 if UserProfile.objects.get(user=player).upgrade_points > 0:
                     card_position = int(request.POST.get('upgrade_damage'))
                     CardService.upgrade_card(active_deck, 'damage', card_position)  # 🎯 JAVÍTVA
                     UserProfile.objects.filter(user=player).update(upgrade_points=F('upgrade_points') - 1)  # 🎯 JAVÍTVA
-                return redirect('/battle/start/')  
-    
-    return render(request, 'battle/battle.html', {
+                return redirect('/battle/')
+
+    return render(request, 'battle.html', {
         'deck': active_deck,
         'enemy_deck': enemy_deck,
     })
