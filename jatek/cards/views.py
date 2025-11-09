@@ -10,6 +10,7 @@ def is_game_master(user):
     return user.is_authenticated and (user.is_staff or user.groups.filter(name='GameMaster').exists())
 
 @login_required
+@user_passes_test(is_game_master)
 def card_creator(request):
     """Fő kártya készítő oldal"""
     world_cards = WorldCard.objects.all()

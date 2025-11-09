@@ -18,13 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 
-from .views import index_views as jatek_views
+from .views import index_views , battle_views
 
 def home_redirect(request):
     return redirect('users:role-selection')
 urlpatterns = [
 
-    path('', jatek_views.index, name='index'),
+    path('', index_views.index, name='index'),
+    path('battle/start/', battle_views.battle_start_view, name='battle_start'),
     path('admin/', admin.site.urls),
      path('users/', include('users.urls')),
     path('cards/', include('cards.urls')),
