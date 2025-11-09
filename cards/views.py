@@ -17,14 +17,13 @@ def card_creator(request):
     world_cards = WorldCard.objects.all()
     leader_cards = LeaderCard.objects.all()
     
-    # Űrlapok inicializálása
+  
     world_form = WorldCardForm()
     leader_form = LeaderCardForm()
-    
-    # Vezérkártya form alapkártya lehetőségei
+ 
     leader_form.fields['base_card'].queryset = WorldCard.objects.all()
     
-    # Játékos gyűjteménye
+
     player_cards = []
     if not is_game_master(request.user):
         try:
@@ -51,7 +50,6 @@ def create_world_card(request):
         form = WorldCardForm(request.POST)
         if form.is_valid():
             try:
-                # Ellenőrizzük a validációkat
                 name = form.cleaned_data['name']
                 damage = form.cleaned_data['base_damage']
                 health = form.cleaned_data['base_health']
@@ -67,15 +65,14 @@ def create_world_card(request):
                 if health < 1 or health > 100:
                     messages.error(request, 'Az életerő értéke 1 és 100 között kell legyen!')
                     return redirect('card_creator')
-                
-                # Mentés
+           
                 form.save()
                 messages.success(request, f'Világkártya "{name}" sikeresen létrehozva!')
                 
             except Exception as e:
                 messages.error(request, f'Hiba történt: {str(e)}')
         else:
-            # Form hibák kezelése
+        
             for error in form.errors.values():
                 messages.error(request, f'Hiba: {error}')
     
@@ -94,17 +91,16 @@ def create_leader_card(request):
                 is_damage_doubled = form.cleaned_data.get('is_damage_doubled', False)
                 is_health_doubled = form.cleaned_data.get('is_health_doubled', False)
                 
-                # Név hossz ellenőrzés
                 if len(name) > 16:
                     messages.error(request, 'A név maximum 16 karakter hosszú lehet!')
                     return redirect('card_creator')
                 
-                # Legalább egy duplázás kell
+  
                 if not is_damage_doubled and not is_health_doubled:
                     messages.error(request, 'Legalább egy tulajdonságot duplázni kell (sebzés vagy életerő)!')
                     return redirect('card_creator')
                 
-                # Mentés
+      
                 form.save()
                 messages.success(request, f'Vezérkártya "{name}" sikeresen létrehozva!')
                 
@@ -125,7 +121,7 @@ def delete_world_card(request, card_id):
             card = get_object_or_404(WorldCard, id=card_id)
             card_name = card.name
             
-            # Függőségek ellenőrzése
+
             if LeaderCard.objects.filter(base_card=card).exists():
                 messages.error(request, f'"{card_name}" nem törölhető, mert vezérkártyák alapjául szolgál!')
                 return redirect('card_creator')
@@ -146,8 +142,7 @@ def delete_leader_card(request, card_id):
         try:
             card = get_object_or_404(LeaderCard, id=card_id)
             card_name = card.name
-            
-            # Függőségek ellenőrzése
+
             if Dungeon.objects.filter(leader_card=card).exists():
                 messages.error(request, f'"{card_name}" nem törölhető, mert kazamatákban használatban van!')
                 return redirect('card_creator')
@@ -209,8 +204,7 @@ def save_selected_cards(request):
         selected_card_ids = request.POST.getlist('selected_cards')
         
         selected_card_ids = [int(card_id) for card_id in selected_card_ids]
-        
-        # PlayerCards létrehozása a kiválasztott kártyákból
+
         for card_id in selected_card_ids:
             world_card = CardService.get_card_by_id(card_id)
             PlayerCards.objects.get_or_create(
@@ -218,6 +212,6 @@ def save_selected_cards(request):
                 world_card=world_card,
             )
 
-        return redirect('dashboard')  # Átirányítás
+        return redirect('dashboard') 
 
     return redirect('select_cards')

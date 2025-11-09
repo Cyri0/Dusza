@@ -21,7 +21,7 @@ def role_selection(request):
         "get_role_display": User.get_role_display(request.POST.get('role')) if request.method == 'POST' else None
     })
 def register(request):
-    """Egyszerű register view a register/ URL-hez"""
+ 
     if request.method == 'POST':
         form = PlayerRegistrationForm(request.POST)
         if form.is_valid():

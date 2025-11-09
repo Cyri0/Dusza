@@ -59,7 +59,6 @@ class Dungeon(models.Model):
         return self.name
     
 
-#enemy cards in dungeon
 class DungeonCard(models.Model):
     dungeon = models.ForeignKey(Dungeon, on_delete=models.CASCADE, related_name='dungeon_cards')
     world_card = models.ForeignKey(WorldCard, on_delete=models.CASCADE)
@@ -108,15 +107,15 @@ class PlayerDeck(models.Model):
     player = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='decks')
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=False)
-    # 🎯 CSERÉLD KI EZT A SORT:
-    card_ids = models.JSONField(default=list)  # [1, 3, 2] - kártya ID-k sorrendben
+ 
+    card_ids = models.JSONField(default=list)  
     
     def save(self, *args, **kwargs):
         if self.is_active:
             PlayerDeck.objects.filter(player=self.player, is_active=True).update(is_active=False)
         super().save(*args, **kwargs)
     
-    # 🎯 ADD HOZZÁ EZEKET A METÓDUSOKAT:
+
     @property
     def cards(self):
         """Visszaadja a kártyákat a card_ids sorrendjében"""

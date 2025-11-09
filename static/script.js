@@ -159,8 +159,6 @@ function renderPlayerDungeons() {
         } else {
             requirementText = `❌ ${selectedCards.length}/${dungeon.maxCards} kártya`;
         }
-
-        // Hozzáadunk egy állapotjelzőt a kazamata kártyához
         const statusInfo = dungeon.cardCount > 0 ? 
             `<p style="color: #28a745;">✅ ${dungeon.cardCount} kártya beállítva</p>` : 
             '<p style="color: #dc3545;">❌ Nincs beállítva</p>';

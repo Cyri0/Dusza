@@ -266,7 +266,7 @@ h2 {
     color: #493628;
 }
 
-/* Új stílus a dungeon-card p elemekhez - több padding */
+
 .dungeon-card p {
     padding: 12px 8px;
     margin: 8px 0;
@@ -315,7 +315,7 @@ h2 {
     margin-bottom: 30px;
 }
 
-/* Kártya elem stílusok */
+
 .card-item {
     width: 200px;
     height: 340px;
@@ -348,7 +348,6 @@ h2 {
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Föld kártya */
 .card-item.earth {
     background: 
         linear-gradient(135deg, #C8E6C9 0%, #4CAF50 100%) padding-box,
@@ -375,7 +374,7 @@ h2 {
         linear-gradient(135deg, #FFD700, #FFA500, #FFD700) border-box;
 }
 
-/* Levegő kártya */
+
 .card-item.air {
     background: 
         linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%) padding-box,
@@ -402,7 +401,7 @@ h2 {
         linear-gradient(135deg, #FFD700, #FFA500, #FFD700) border-box;
 }
 
-/* Tűz kártya */
+
 .card-item.fire {
     background: 
         linear-gradient(135deg, #FFCDD2 0%, #F44336 100%) padding-box,
@@ -429,7 +428,7 @@ h2 {
         linear-gradient(135deg, #FFD700, #FFA500, #FFD700) border-box;
 }
 
-/* Víz kártya */
+
 .card-item.water {
     background: 
         linear-gradient(135deg, #BBDEFB 0%, #2196F3 100%) padding-box,
@@ -780,7 +779,7 @@ select#regRole {
     color: #493628;
 }
 
-/* Battle kártyák design */
+
 .battle-field {
   display: flex;
   flex-direction: column;
@@ -813,7 +812,7 @@ select#regRole {
   flex-wrap: wrap;
 }
 
-/* Battle kártya design */
+
 .battle-card {
     width: 180px;
     height: 280px;
@@ -834,7 +833,6 @@ select#regRole {
     transform: translateY(-5px);
 }
 
-/* Battle kártya elem stílusok */
 .battle-card.earth {
     background: 
         linear-gradient(135deg, #C8E6C9 0%, #4CAF50 100%) padding-box,
@@ -1035,7 +1033,7 @@ select#regRole {
     margin-bottom: 5px;
 }
 
-/* Új stílus a láthatóság váltáshoz */
+
 .visibility-toggle {
     display: flex;
     align-items: center;
@@ -1056,7 +1054,7 @@ select#regRole {
     color: #493628;
 }
 
-/* Battle vezér kártya stílus */
+
 .battle-card.leader {
     border: 3px solid #FFD700;
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
@@ -1079,7 +1077,6 @@ select#regRole {
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-/* Vezérkártya létrehozás modal stílusok */
 .leader-card-options {
     display: flex;
     flex-direction: column;

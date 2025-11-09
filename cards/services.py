@@ -38,9 +38,7 @@ class CardService:
     
     @staticmethod
     def card_player_pos_change(deck, from_pos, to_pos):
-        """
-        Kártya pozíciójának megváltoztatása a pakliban - JSON sorrenddel
-        """
+
         if (from_pos < 0 or from_pos >= len(deck.card_ids) or 
             to_pos < 0 or to_pos >= len(deck.card_ids)):
             return deck
@@ -54,21 +52,21 @@ class CardService:
     
     @staticmethod
     def move_card_left(deck, current_position):
-        """Kártya balra mozgatása"""
+
         if current_position > 0:
             return CardService.card_player_pos_change(deck, current_position, current_position - 1)
         return deck
 
     @staticmethod
     def move_card_right(deck, current_position):
-        """Kártya jobbra mozgatása"""
+   
         if current_position < len(deck.card_ids) - 1:
             return CardService.card_player_pos_change(deck, current_position, current_position + 1)
         return deck
     
     @staticmethod
     def upgrade_card(deck, upgrade_type, deck_position):
-        """Kártya fejlesztése"""
+      
         player_card = PlayerCards.objects.get(world_card=deck.card_ids[deck_position])
         
         if upgrade_type == 'health':

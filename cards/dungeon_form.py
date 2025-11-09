@@ -27,10 +27,10 @@ class DungeonForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Csak elérhető vezérkártyák jelenjenek meg
+
         self.fields['leader_card'].queryset = LeaderCard.objects.all()
         
-        # Placeholder szövegek
+     
         self.fields['name'].widget.attrs['placeholder'] = 'Pl.: Moria Barlangjai'
         
     def clean_name(self):
@@ -44,7 +44,6 @@ class DungeonForm(forms.ModelForm):
         dungeon_type = cleaned_data.get('dungeon_type')
         leader_card = cleaned_data.get('leader_card')
         
-        # További validációk itt, ha szükséges
         return cleaned_data
 
 
@@ -64,7 +63,6 @@ class AddCardToDungeonForm(forms.Form):
         super().__init__(*args, **kwargs)
         
         if dungeon:
-            # Kizárjuk azokat a kártyákat, amelyek már benne vannak a kazamatában
             existing_card_ids = dungeon.dungeon_cards.values_list('world_card_id', flat=True)
             self.fields['card_id'].queryset = WorldCard.objects.exclude(id__in=existing_card_ids)
 
