@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import WorldCard, LeaderCard, Dungeon, PlayerCards
+from users.models import User
 from .forms import WorldCardForm, LeaderCardForm, DungeonForm
 from .services import CardService
 
@@ -215,9 +216,8 @@ def save_selected_cards(request):
             PlayerCards.objects.get_or_create(
                 player=request.user,
                 world_card=world_card,
-                defaults={'extra_damage': 0, 'extra_health': 0}
             )
-        
-        return redirect('dashboard')  # Átirányítás 
-    
+
+        return redirect('dashboard')  # Átirányítás
+
     return redirect('select_cards')

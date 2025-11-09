@@ -5,8 +5,8 @@ from jatek.views import dungeon_views  # 🎯 JAVÍTVA: relatív import
 
 urlpatterns = [
     # Fő kártya készítő oldal
-    path('card-creator/', views.card_creator, name='card_creator'),
-    path('card-selector/', views.card_selector, name='card_selector'),
+    path('cardcreator/', views.card_creator, name='card_creator'),
+    path('cardselector/', views.card_selector, name='card_selector'),
 
     # 🎯 JAVÍTVA: Duplikált sorok eltávolítva, csak dungeon_views-ek maradnak
     # Dungeon management URLs

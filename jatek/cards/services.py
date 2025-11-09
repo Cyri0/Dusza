@@ -1,5 +1,5 @@
 from django.db import models
-from .models import DungeonDeck, WorldCard, Dungeon, PlayerDeck, PlayerCards, Battle
+from .models import DungeonDeck, WorldCard, Dungeon, PlayerDeck, PlayerCards
 from users.service import UserService
 
 class CardService:
@@ -67,6 +67,19 @@ class CardService:
         return deck
     
     @staticmethod
+    def upgrade_card(deck, upgrade_type, deck_position):
+        """Kártya fejlesztése"""
+        player_card = PlayerCards.objects.get(world_card=deck.card_ids[deck_position])
+        
+        if upgrade_type == 'health':
+            player_card.extra_health += 1
+        elif upgrade_type == 'damage':
+            player_card.extra_damage += 1
+
+        player_card.save()
+        return player_card
+    
+    @staticmethod
     def get_dungeon_by_id(dungeon_id):
         try:
             return Dungeon.objects.get(id=dungeon_id)
@@ -81,13 +94,13 @@ class CardService:
             return None
         
     @staticmethod
-    def get_card_hp(card):
-        return card.base_health
-    
+    def get_card_hp(card, is_player=True):
+        return PlayerCards.objects.get(world_card=card).total_health if is_player else card.base_health
+
     @staticmethod
-    def get_card_damage(card):
-        return card.base_damage
-    
+    def get_card_damage(card, is_player=True):
+        return PlayerCards.objects.get(world_card=card).total_damage  if is_player else card.base_damage
+
     @staticmethod
     def get_card_element(card):
         return card.card_type
