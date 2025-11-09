@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Damareen – Harc</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  {% load static %}
+  <link rel="stylesheet" href="{%static 'style.css'%}">
+  <script src="{%static 'script.js'%}" defer></script>
 </head>
 <body>
   <button class="btn back-btn" onclick="logout()">⬅ Kijelentkezés</button>
@@ -29,15 +30,13 @@
     
     <div class="battle-log" id="battleLog"></div>
     
-    <button class="btn" onclick="endBattle()">🏁 Harc befejezése</button>
+    <button class="btn" onclick="endBattle()">🏁 Vissza a kazamatákhoz</button>
   </div>
 
   <script>
     function endBattle() {
         // Töröljük a localStorage-ból a harc adatait
         localStorage.removeItem('playerBattleCards');
-        localStorage.removeItem('enemyBattleCards');
-        localStorage.removeItem('enemyLeaderCard');
         localStorage.removeItem('currentDungeon');
         
         window.location.href = 'player_dungeons.html';

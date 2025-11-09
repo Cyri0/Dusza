@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Damareen – Kazamaták Szerkesztése</title>
-   {% load static %}
-<link rel="stylesheet" href="{%static 'style.css'%}">
-<script src="{%static 'script.js'%}" defer></script>
-
+  {% load static %}
+  <link rel="stylesheet" href="{%static 'style.css'%}">
+  <script src="{%static 'script.js'%}" defer></script>
 </head>
 <body>
   <button class="btn back-btn" onclick="logout()">⬅ Kijelentkezés</button>
@@ -20,7 +19,7 @@
     <div class="dungeons-grid" id="gmDungeonsGrid"></div>
   </div>
 
-
+  <!-- Pakli szerkesztés -->
   <div id="gmDeckScreen" class="screen">
     <button class="btn return-btn" onclick="backToGMDungeons()">⬅ Vissza</button>
     <div class="container">
@@ -29,19 +28,34 @@
         <h2 id="gmDeckTitle">Kazamata neve</h2>
         <div class="deck-info">
           <h3>Kiválasztott kártyák: <span id="gmCardCount">0</span></h3>
-          <p>Állítsd össze az ellenfél pakliját. Jelölj meg egy kártyát vezérként (👑)!</p>
+          <p>Állítsd össze az ellenfél pakliját. Válassz sima kártyákat és opcionálisan vezérkártyákat!</p>
           <p><strong>Kártya követelmény:</strong> <span id="dungeonCardRequirement">0-0</span> kártya</p>
+          <div class="deck-requirements">
+            <p><strong>Kazamata típusok követelményei:</strong></p>
+            <ul>
+              <li>✅ <strong>Egyszerű</strong>: 1 sima kártya (nincs vezérkártya)</li>
+              <li>✅ <strong>Kis</strong>: 3 sima kártya + 1 vezérkártya</li>
+              <li>✅ <strong>Nagy</strong>: 5 sima kártya + 1 vezérkártya</li>
+            </ul>
+          </div>
         </div>
         <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-          <button class="btn btn-success btn-small" onclick="showCreateCardModal()">➕ Új Kártya</button>
-          <button class="btn btn-secondary btn-small" onclick="showCreateLeaderCardModal()">👑 Vezérkártya</button>
+          <button class="btn btn-success btn-small" onclick="showCreateCardModal()">➕ Új Sima Kártya</button>
+          <button class="btn btn-secondary btn-small" onclick="showCreateLeaderCardModal()">👑 Új Vezérkártya</button>
         </div>
-        <div class="cards-grid" id="gmCardsGrid"></div>
+        
+        <h3>Sima Kártyák</h3>
+        <div class="cards-grid" id="gmNormalCardsGrid"></div>
+        
+        <h3>Vezérkártyák</h3>
+        <div class="cards-grid" id="gmLeaderCardsGrid"></div>
+        
         <button class="btn" onclick="saveDungeon()">💾 Kazamata mentése</button>
       </div>
     </div>
   </div>
 
+  <!-- Modálok -->
   <div id="createDungeonModal" class="modal">
     <div class="modal-content">
       <h2>➕ Új Kazamata Létrehozása</h2>
@@ -100,12 +114,12 @@
 
       <div class="form-group">
         <label for="newCardAttack">Támadás</label>
-        <input type="number" id="newCardAttack" placeholder="0-20" min="0" max="20" value="5">
+        <input type="number" id="newCardAttack" placeholder="2-100" min="2" max="100" value="5">
       </div>
 
       <div class="form-group">
         <label for="newCardHealth">Életerő</label>
-        <input type="number" id="newCardHealth" placeholder="0-20" min="0" max="20" value="3">
+        <input type="number" id="newCardHealth" placeholder="1-100" min="1" max="100" value="3">
       </div>
 
       <div class="modal-buttons">
@@ -160,9 +174,10 @@
   <script>
     function editDungeon(dungeonId) {
       currentDungeon = window.allDungeons.find(d => d.id === dungeonId);
-    
-      selectedCards = currentDungeon.enemyCards || [];
-      leaderCard = currentDungeon.leaderCard || null;
+      
+      // Betöltjük a kazamata specifikus kártyákat
+      selectedNormalCards = currentDungeon.enemyCards || [];
+      selectedLeaderCards = currentDungeon.leaderCards || [];
       
       document.getElementById('gmDeckTitle').textContent = currentDungeon.name + ' - Szerkesztés';
       document.getElementById('dungeonCardRequirement').textContent = `${currentDungeon.minCards}-${currentDungeon.maxCards}`;
