@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Damareen – Harc</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <button class="btn back-btn" onclick="logout()">⬅ Kijelentkezés</button>
+  <div class="container">
+    <h1>⚔️ Csata</h1>
+    <p class="info-message">A harc elkezdődött! Használd a kártyáidat, hogy legyőzd az ellenfelet.</p>
+    
+    <div class="battle-field">
+      <div class="battle-side">
+        <h2>👑 Ellenfél kártyái</h2>
+        <div class="battle-cards" id="enemyCards"></div>
+      </div>
+      
+      <div class="battle-vs">VS</div>
+      
+      <div class="battle-side">
+        <h2>🎮 Játékos kártyái</h2>
+        <div class="battle-cards" id="playerCards"></div>
+      </div>
+    </div>
+    
+    <div class="battle-log" id="battleLog"></div>
+    
+    <button class="btn" onclick="endBattle()">🏁 Harc befejezése</button>
+  </div>
+
+  <script>
+    function endBattle() {
+        // Töröljük a localStorage-ból a harc adatait
+        localStorage.removeItem('playerBattleCards');
+        localStorage.removeItem('enemyBattleCards');
+        localStorage.removeItem('enemyLeaderCard');
+        localStorage.removeItem('currentDungeon');
+        
+        window.location.href = 'player_dungeons.html';
+    }
+
+    // Betöltéskor indítsuk a harcot
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof simulateBattle === 'function') {
+            simulateBattle();
+        }
+    });
+  </script>
+</body>
+</html>

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 def index(request):
-    return render(request, 'index.html')
+
+    return redirect('users:role-selection')

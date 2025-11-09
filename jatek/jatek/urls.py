@@ -25,7 +25,7 @@ def home_redirect(request):
 urlpatterns = [
 
     path('', index_views.index, name='index'),
-    path('battle/start/', battle_views.battle_start_view, name='battle_start'),
+    path('battle/', battle_views.battle_start_view, name='battle_start'),
     path('admin/', admin.site.urls),
      path('users/', include('users.urls')),
     path('cards/', include('cards.urls')),
