@@ -205,56 +205,56 @@ function enterDungeon(dungeonId) {
 }
 
 function renderPlayerCards() {
-    const grid = document.getElementById('playerCardsGrid');
-    grid.innerHTML = '';
+    // const grid = document.getElementById('playerCardsGrid');
+    // grid.innerHTML = '';
 
-    //Csak a sima kártyákat jelenítjük meg (nincsenek vezérkártyák)
-    const normalPlayerCards = playerCollection.filter(card => !card.isLeaderCard);
+    // // Csak a sima kártyákat jelenítjük meg (nincsenek vezérkártyák)
+    // const normalPlayerCards = playerCollection.filter(card => !card.isLeaderCard);
 
     // normalPlayerCards.forEach(card => {
     //     const cardEl = document.createElement('div');
     //     cardEl.className = `card-item ${card.element} ${selectedNormalCards.includes(card.id) ? 'selected' : ''}`;
     //     cardEl.setAttribute('data-card-id', card.id);
         
-        // // Emoji kiválasztása a kártya típusa alapján
-        // let emoji = '⚔️'; // alapértelmezett
-        // if (card.name.includes('Varázsló')) emoji = '🔮';
-        // if (card.name.includes('Íjász')) emoji = '🏹';
-        // if (card.name.includes('Lovag')) emoji = '🛡️';
-        // if (card.name.includes('Óriás')) emoji = '👹';
-        // if (card.name.includes('Sárkány')) emoji = '🐉';
-        // if (card.name.includes('Pap')) emoji = '🙏';
-        // if (card.name.includes('Orgyilkos')) emoji = '🗡️';
-        // if (card.isCustom) {
-        //     // Egyedi kártyákhoz speciális emojik
-        //     if (card.name.includes('Tűz') || card.name.includes('Démon')) emoji = '🔥';
-        //     if (card.name.includes('Jég') || card.name.includes('Fagy')) emoji = '❄️';
-        //     if (card.name.includes('Villám')) emoji = '⚡';
-        //     if (card.name.includes('Szellem')) emoji = '👻';
-        // }
+    //     // Emoji kiválasztása a kártya típusa alapján
+    //     let emoji = '⚔️'; // alapértelmezett
+    //     if (card.name.includes('Varázsló')) emoji = '🔮';
+    //     if (card.name.includes('Íjász')) emoji = '🏹';
+    //     if (card.name.includes('Lovag')) emoji = '🛡️';
+    //     if (card.name.includes('Óriás')) emoji = '👹';
+    //     if (card.name.includes('Sárkány')) emoji = '🐉';
+    //     if (card.name.includes('Pap')) emoji = '🙏';
+    //     if (card.name.includes('Orgyilkos')) emoji = '🗡️';
+    //     if (card.isCustom) {
+    //         // Egyedi kártyákhoz speciális emojik
+    //         if (card.name.includes('Tűz') || card.name.includes('Démon')) emoji = '🔥';
+    //         if (card.name.includes('Jég') || card.name.includes('Fagy')) emoji = '❄️';
+    //         if (card.name.includes('Villám')) emoji = '⚡';
+    //         if (card.name.includes('Szellem')) emoji = '👻';
+    //     }
         
-        // cardEl.innerHTML = `
-        //     <div class="card-image">${emoji}</div>
-        //     <h4>${card.name}</h4>
-        //     <div class="card-element">${getElementEmoji(card.element)} ${getElementName(card.element)}</div>
-        //     <div class="card-stats">
-        //         <div class="stat">
-        //             <div class="stat-label">⚔️ Támadás</div>
-        //             <div class="stat-value">${card.attack}</div>
-        //         </div>
-        //         <div class="stat">
-        //             <div class="stat-label">❤️ Életerő</div>
-        //             <div class="stat-value">${card.health}</div>
-        //         </div>
-        //     </div>
-        // `;
+    //     cardEl.innerHTML = `
+    //         <div class="card-image">${emoji}</div>
+    //         <h4>${card.name}</h4>
+    //         <div class="card-element">${getElementEmoji(card.element)} ${getElementName(card.element)}</div>
+    //         <div class="card-stats">
+    //             <div class="stat">
+    //                 <div class="stat-label">⚔️ Támadás</div>
+    //                 <div class="stat-value">${card.attack}</div>
+    //             </div>
+    //             <div class="stat">
+    //                 <div class="stat-label">❤️ Életerő</div>
+    //                 <div class="stat-value">${card.health}</div>
+    //             </div>
+    //         </div>
+    //     `;
         
         cardEl.onclick = () => togglePlayerCard(card.id);
         grid.appendChild(cardEl);
-    };
+   }
 
-    updatePlayerCardCount();
-
+//     updatePlayerCardCount();
+// }
 
 function togglePlayerCard(cardId) {
     const cardEl = document.querySelector(`#playerCardsGrid .card-item[data-card-id="${cardId}"]`);
