@@ -15,37 +15,37 @@ const availableCards = [
 window.allDungeons = [
    ];
 
-// Betöltjük a mentett kazamatákat és egyedi kártyákat, ha vannak
-function loadFromLocalStorage() {
-    const savedDungeons = localStorage.getItem('allDungeons');
-    if (savedDungeons) {
-        window.allDungeons = JSON.parse(savedDungeons);
-    }
-    const savedCustomCards = localStorage.getItem('customCards');
-    if (savedCustomCards) {
-        customCards = JSON.parse(savedCustomCards);
-    }
+// // Betöltjük a mentett kazamatákat és egyedi kártyákat, ha vannak
+// #function loadFromLocalStorage() {
+    // const savedDungeons = localStorage.getItem('allDungeons');
+    // if (savedDungeons) {
+        // window.allDungeons = JSON.parse(savedDungeons);
+    // }
+    // const savedCustomCards = localStorage.getItem('customCards');
+    // if (savedCustomCards) {
+        // customCards = JSON.parse(savedCustomCards);
+    // }
     
-    // Betöltjük a következő ID-kat is
-    const savedNextCardId = localStorage.getItem('nextCardId');
-    if (savedNextCardId) {
-        nextCardId = parseInt(savedNextCardId);
-    }
-    const savedNextDungeonId = localStorage.getItem('nextDungeonId');
-    if (savedNextDungeonId) {
-        nextDungeonId = parseInt(savedNextDungeonId);
-    }
+    // // Betöltjük a következő ID-kat is
+    // const savedNextCardId = localStorage.getItem('nextCardId');
+    // if (savedNextCardId) {
+        // nextCardId = parseInt(savedNextCardId);
+    // }
+    // const savedNextDungeonId = localStorage.getItem('nextDungeonId');
+    // if (savedNextDungeonId) {
+        // nextDungeonId = parseInt(savedNextDungeonId);
+    // }
     
-    // Betöltjük a játékos gyűjteményét
-    const savedPlayerCollection = localStorage.getItem('playerCollection');
-    if (savedPlayerCollection) {
-        playerCollection = JSON.parse(savedPlayerCollection);
-    } else {
-        // Alapértelmezett gyűjtemény - csak sima kártyák, nincsenek vezérkártyák
-        playerCollection = [...availableCards];
-        savePlayerCollection();
-    }
-}
+    // // Betöltjük a játékos gyűjteményét
+    // const savedPlayerCollection = localStorage.getItem('playerCollection');
+    // if (savedPlayerCollection) {
+        // playerCollection = JSON.parse(savedPlayerCollection);
+    // } else {
+        // // Alapértelmezett gyűjtemény - csak sima kártyák, nincsenek vezérkártyák
+        // playerCollection = [...availableCards];
+        // savePlayerCollection();
+    // }
+// }
 
 // Elmentjük a kazamatákat és egyedi kártyákat a localStorage-ba
 function saveToLocalStorage() {
