@@ -143,7 +143,7 @@ function register() {
 }
 
 function logout() {
-    window.location.href = 'index.html';
+    window.location.href = '/users';
 }
 
 function renderPlayerDungeons() {
