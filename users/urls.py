@@ -8,7 +8,7 @@ app_name = 'users'
 urlpatterns = [
     path('', views.role_selection, name='role-selection'),
     path('register/', views.register, name='register'),
-    
+    path('battle/', views.battle, name='battle'),
     path('player/login/', views.player_login, name='player_login'),
     path('gamemaster/login/', views.gamemaster_login, name='gamemaster_login'),
     path('player/dungeons/', views.player_dungeons, name='player_dungeons'),

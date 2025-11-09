@@ -94,5 +94,6 @@ def player_dungeons(request):
 def gamemaster_dungeons(request):
     return render(request, 'users/gamemaster_dungeons.html')
 
-
+def battle(request):
+    return render(request, 'users/battle.html')
 
