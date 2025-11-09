@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Damareen – Játékos Kazamaták</title>
+   {% load static %}
+<link rel="stylesheet" href="{%static 'style.css'%}">
+<script src="{%static 'script.js'%}" defer></script>
+
+</head>
+<body>
+  <button class="btn back-btn" onclick="logout()">⬅ Kijelentkezés</button>
+  <div class="container">
+    <h1>🗡️ Válassz Kazamatát</h1>
+    
+    <!-- Pakli összeállítás - mindig látható -->
+    <div class="deck-builder-container">
+      <h2>📚 Pakli Összeállítás</h2>
+      <div class="deck-info">
+        <h3>Kiválasztott kártyák: <span id="playerCardCount">0</span></h3>
+        <p>Válassz ki kártyákat a harchoz, majd válassz egy kazamatát!</p>
+        <div class="deck-requirements">
+          <p><strong>Követelmények:</strong></p>
+          <ul>
+            <li>✅ <strong>Egyszerű</strong> kazamata: <strong>1 kártya</strong></li>
+            <li>✅ <strong>Kis</strong> kazamata: <strong>4 kártya</strong></li>
+            <li>✅ <strong>Nagy</strong> kazamata: <strong>6 kártya</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="cards-grid" id="playerCardsGrid"></div>
+    </div>
+
+    <!-- Kazamata választás -->
+    <p class="info-message">Válassz egy kazamatát a kiválasztott kártyákkal!</p>
+    <div class="dungeons-grid" id="playerDungeonsGrid"></div>
+  </div>
+
+  <script>
+    // Betöltéskor rendereljük a kártyákat és a kazamatákat
+    document.addEventListener('DOMContentLoaded', function() {
+      renderPlayerCards();
+      renderPlayerDungeons();
+    });
+
+    // Frissítjük a kazamatákat kártya választáskor
+    function updatePlayerCardCount() {
+      document.getElementById('playerCardCount').textContent = selectedCards.length;
+      renderPlayerDungeons(); // Újrarendereljük a kazamatákat
+    }
+  </script>
+</body>
+</html>

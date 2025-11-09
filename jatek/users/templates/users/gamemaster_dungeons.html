@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Damareen – Kazamaták Szerkesztése</title>
+   {% load static %}
+<link rel="stylesheet" href="{%static 'style.css'%}">
+<script src="{%static 'script.js'%}" defer></script>
+
+</head>
+<body>
+  <button class="btn back-btn" onclick="logout()">⬅ Kijelentkezés</button>
+  <div class="container">
+    <h1>👑 Kazamaták Szerkesztése</h1>
+    <div class="top-action-bar">
+      <p class="info-message" style="margin: 0;">Válassz ki egy kazamatát és állítsd össze az ellenfél paklijat! Be tudod kapcsolni a láthatóságot, hogy a játékosok is láthassák.</p>
+      <button class="btn btn-success" onclick="showCreateDungeonModal()">➕ Új Kazamata</button>
+    </div>
+    <div class="dungeons-grid" id="gmDungeonsGrid"></div>
+  </div>
+
+  <!-- Pakli szerkesztés -->
+  <div id="gmDeckScreen" class="screen">
+    <button class="btn return-btn" onclick="backToGMDungeons()">⬅ Vissza</button>
+    <div class="container">
+      <h1>👑 Kazamata Szerkesztése</h1>
+      <div class="deck-builder-container">
+        <h2 id="gmDeckTitle">Kazamata neve</h2>
+        <div class="deck-info">
+          <h3>Kiválasztott kártyák: <span id="gmCardCount">0</span></h3>
+          <p>Állítsd össze az ellenfél pakliját. Jelölj meg egy kártyát vezérként (👑)!</p>
+          <p><strong>Kártya követelmény:</strong> <span id="dungeonCardRequirement">0-0</span> kártya</p>
+        </div>
+        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+          <button class="btn btn-success btn-small" onclick="showCreateCardModal()">➕ Új Kártya</button>
+          <button class="btn btn-secondary btn-small" onclick="showCreateLeaderCardModal()">👑 Vezérkártya</button>
+        </div>
+        <div class="cards-grid" id="gmCardsGrid"></div>
+        <button class="btn" onclick="saveDungeon()">💾 Kazamata mentése</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modálok -->
+  <div id="createDungeonModal" class="modal">
+    <div class="modal-content">
+      <h2>➕ Új Kazamata Létrehozása</h2>
+      <div class="form-group">
+        <label for="newDungeonName">Kazamata neve</label>
+        <input type="text" id="newDungeonName" placeholder="Például: Sötét Erdő">
+      </div>
+
+      <div class="form-group">
+        <label for="newDungeonType">Kazamata típusa</label>
+        <select id="newDungeonType" class="dungeon-select">
+          <option value="">Válassz típust...</option>
+          <option value="Egyszerű">Egyszerű</option>
+          <option value="Kis">Kis</option>
+          <option value="Nagy">Nagy</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="newDungeonVariant">Kazamata változata</label>
+        <select id="newDungeonVariant" class="dungeon-select">
+          <option value="">Válassz változatot...</option>
+          <option value="Hegy">Hegy</option>
+          <option value="Sivatag">Sivatag</option>
+          <option value="Mocsár">Mocsár</option>
+          <option value="Barlang">Barlang</option>
+          <option value="Dzsungel">Dzsungel</option>
+        </select>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="btn btn-success" onclick="createDungeon()">Létrehozás</button>
+        <button class="btn btn-secondary" onclick="closeCreateDungeonModal()">Mégse</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="createCardModal" class="modal">
+    <div class="modal-content">
+      <h2>➕ Új Kártya Létrehozása</h2>
+
+      <div class="form-group">
+        <label for="newCardName">Kártya neve</label>
+        <input type="text" id="newCardName" placeholder="Például: Tűz Démon">
+      </div>
+
+      <div class="form-group">
+        <label for="newCardElement">Kártya eleme</label>
+        <select id="newCardElement" class="dungeon-select">
+          <option value="earth">🌍 Föld</option>
+          <option value="air">💨 Levegő</option>
+          <option value="fire">🔥 Tűz</option>
+          <option value="water">💧 Víz</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="newCardAttack">Támadás</label>
+        <input type="number" id="newCardAttack" placeholder="0-20" min="0" max="20" value="5">
+      </div>
+
+      <div class="form-group">
+        <label for="newCardHealth">Életerő</label>
+        <input type="number" id="newCardHealth" placeholder="0-20" min="0" max="20" value="3">
+      </div>
+
+      <div class="modal-buttons">
+        <button class="btn btn-success" onclick="createCard()">Létrehozás</button>
+        <button class="btn btn-secondary" onclick="closeCreateCardModal()">Mégse</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="createLeaderCardModal" class="modal">
+    <div class="modal-content">
+      <h2>👑 Vezérkártya Létrehozása</h2>
+
+      <div class="form-group">
+        <label for="baseCardForLeader">Alap kártya</label>
+        <select id="baseCardForLeader" class="dungeon-select" onchange="updateLeaderCardPreview()">
+          <option value="">Válassz alap kártyát...</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="leaderCardName">Vezérkártya neve</label>
+        <input type="text" id="leaderCardName" placeholder="Például: Tűz Vezér" oninput="updateLeaderCardPreview()">
+      </div>
+
+      <div class="leader-card-options">
+        <h4>Válassz módosítást:</h4>
+        <div class="leader-option">
+          <input type="radio" id="doubleAttack" name="leaderModification" value="attack" checked onchange="updateLeaderCardPreview()">
+          <label for="doubleAttack">Támadás duplázása</label>
+        </div>
+        <div class="leader-option">
+          <input type="radio" id="doubleHealth" name="leaderModification" value="health" onchange="updateLeaderCardPreview()">
+          <label for="doubleHealth">Életerő duplázása</label>
+        </div>
+      </div>
+
+      <div class="leader-preview">
+        <h4>Előnézet:</h4>
+        <div id="leaderCardPreview">
+          <p>Válassz egy alap kártyát az előnézethez.</p>
+        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="btn btn-success" onclick="createLeaderCard()">Vezérkártya Létrehozása</button>
+        <button class="btn btn-secondary" onclick="closeCreateLeaderCardModal()">Mégse</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function editDungeon(dungeonId) {
+      currentDungeon = window.allDungeons.find(d => d.id === dungeonId);
+      
+      // Betöltjük a kazamata specifikus kártyákat
+      selectedCards = currentDungeon.enemyCards || [];
+      leaderCard = currentDungeon.leaderCard || null;
+      
+      document.getElementById('gmDeckTitle').textContent = currentDungeon.name + ' - Szerkesztés';
+      document.getElementById('dungeonCardRequirement').textContent = `${currentDungeon.minCards}-${currentDungeon.maxCards}`;
+      
+      renderGMCards();
+      showScreen('gmDeckScreen');
+    }
+  </script>
+</body>
+</html>

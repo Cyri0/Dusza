@@ -29,7 +29,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('dashboard')  # Vagy ahova szeretnéd
+            return redirect('/users')  # Vagy ahova szeretnéd
     else:
         form = PlayerRegistrationForm()
     
@@ -58,7 +58,7 @@ def player_login(request):
                 if profile.role == 'jatekos':
                     login(request, user)
                     messages.success(request, 'Sikeres bejelentkezés játékosként!')
-                    return redirect('/users/player/dashboard/') 
+                    return redirect('/users/player/dungeons/') 
                 else:
                     messages.error(request, 'Ez a felhasználó nem játékos!')
             except UserProfile.DoesNotExist:
@@ -68,23 +68,20 @@ def player_login(request):
     
     return render(request, 'users/player_login.html')
 
-
 def gamemaster_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         
-       
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-           
             try:
                 profile = user.userprofile
-                if UserService.get_role_by_id(user.id) == 'jatekosmester':
+                if profile.role == 'jatekosmester':  # 🔥 JAVÍTVA
                     login(request, user)
                     messages.success(request, 'Sikeres bejelentkezés játékosmesterként!')
-                    return redirect('/users/player/dashboard/')  
+                    return redirect('/users/gamemaster/dungeons/')  
                 else:
                     messages.error(request, 'Ez a felhasználó nem játékosmester!')
             except UserProfile.DoesNotExist:
@@ -93,9 +90,11 @@ def gamemaster_login(request):
             messages.error(request, 'Hibás felhasználónév vagy jelszó!')
     
     return render(request, 'users/gamemaster_login.html')
-
-def player_dashboard(request):
-    return render(request, 'users/dashboard.html')
+def player_dungeons(request):
+    return render(request, 'users/player_dungeons.html')
+    
+def gamemaster_dungeons(request):
+    return render(request, 'users/gamemaster_dungeons.html')
 
 
 

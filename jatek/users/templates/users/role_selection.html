@@ -4,30 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Damareen – Szerepkör választás</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   {% load static %}
 <link rel="stylesheet" href="{%static 'style.css'%}">
 <script src="{%static 'script.js'%}" defer></script>
 </head>
 <body>
   <!-- Navigációs sáv - Django template részekkel -->
-  <div class="navbar">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'users:role-selection' %}">🏰 Damareen</a>
-      <div class="navbar-nav">
-        {% if user.is_authenticated %}
-          <span class="navbar-text">
-            Üdv, <strong>{{ user.email }}</strong>
-            <span class="role-badge {% if role == 'gamemaster' %}role-gamemaster{% else %}role-player{% endif %}">
-              {{ get_role_display }}
-            </span>
-          </span>
-          <a class="nav-link" href="{% url 'users:logout' %}">🚪 Kijelentkezés</a>
-        {% else %}
-          <a class="nav-link" href="{% url 'users:register' %}">📝 Regisztráció</a>
-        {% endif %}
-      </div>
-    </div>
-  </div>
+  
 
   <div class="container">
     <!-- Üzenetek megjelenítése -->
@@ -46,18 +30,7 @@
         <p class="subtitle">Válaszd ki a szerepköröd</p>
 
         <!-- Bejelentkezett felhasználó esetén -->
-        {% if user.is_authenticated %}
-          <div class="welcome-section">
-            <h3>Üdvözöllek, {{ user.email }}!</h3>
-            <p class="role-info">Szerepkör: <strong>{{ user.get_role_display }}</strong></p>
-            
-            {% if role == 'gamemaster' %}
-              <a href="{% url 'cards:card-list' %}" class="btn">🎴 Kártya Kezelés</a>
-            {% else %}
-              <a href="{% url 'game:game-home' %}" class="btn">🎮 Játék Indítása</a>
-            {% endif %}
-          </div>
-        {% else %}
+
           <!-- Nem bejelentkezett felhasználó esetén -->
           <div class="form-buttons">
             <button class="btn" onclick="goToPlayerLogin()">🎮 Játékosként lépek be</button>
@@ -67,9 +40,9 @@
           <div class="auth-switch">
             Nincs még fiókod? <a href="{% url 'users:register' %}">Regisztrálj most!</a>
           </div>
-        {% endif %}
+
       </div>
     </div>
   </div>
 </body>
-</html>
+</html> 
