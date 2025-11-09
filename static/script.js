@@ -209,7 +209,7 @@ function renderPlayerCards() {
     grid.innerHTML = '';
 
     // Csak a sima kártyákat jelenítjük meg (nincsenek vezérkártyák)
-    const normalPlayerCards = playerCollection.filter(card => !card.isLeaderCard);
+    //const normalPlayerCards = playerCollection.filter(card => !card.isLeaderCard);
 
     normalPlayerCards.forEach(card => {
         const cardEl = document.createElement('div');
