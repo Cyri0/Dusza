@@ -56,9 +56,9 @@ function saveToLocalStorage() {
 }
 
 // Játékos gyűjtemény mentése
-function savePlayerCollection() {
-    localStorage.setItem('playerCollection', JSON.stringify(playerCollection));
-}
+// function savePlayerCollection() {
+//     localStorage.setItem('playerCollection', JSON.stringify(playerCollection));
+// }
 
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
